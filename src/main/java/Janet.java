@@ -38,8 +38,19 @@ public class Janet {
             if (command.equals("list")) {
                 System.out.println(" Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + ".[" + tasks[i].getStatusIcon() + "] "
+                    System.out.println(" " + (i + 1) + "." + tasks[i].getTypeIcon()
+                            + "[" + tasks[i].getStatusIcon() + "] "
                             + tasks[i].getDescription());
+                }
+            } else if (command.startsWith("todo ")) {
+                if (taskCount < MAX_TASKS) {
+                    tasks[taskCount] = new Todo(command.substring(5).trim());
+                    taskCount++;
+                    System.out.println(" Got it. I've added this task:");
+                    System.out.println("   [T][ ] " + tasks[taskCount - 1].getDescription());
+                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                } else {
+                    System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
                 }
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks, taskCount);
@@ -72,7 +83,8 @@ public class Janet {
 
         task.markAsDone();
         System.out.println(" Nice! I've marked this task as done:");
-        System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
+        System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
+                + task.getDescription());
     }
 
     /**
@@ -90,7 +102,8 @@ public class Janet {
 
         task.markAsUndone();
         System.out.println(" Okay, I've marked this task as not done yet:");
-        System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
+        System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
+                + task.getDescription());
     }
 
     /**

@@ -28,6 +28,15 @@ public class Task {
     }
 
     /**
+     * Returns the icon identifying this task type.
+     *
+     * @return an empty string for a general task
+     */
+    public String getTypeIcon() {
+        return "";
+    }
+
+    /**
      * Returns the task description.
      *
      * @return the task description
