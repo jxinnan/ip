@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
@@ -5,7 +6,7 @@ import java.util.Scanner;
  */
 public class Janet {
     /** Maximum number of tasks Janet can store during one run. */
-    private static final int MAX_TASKS = 100;
+    private static final int MAX_TASKS = Integer.MAX_VALUE;
 
     public static void main(String[] args) {
         String banner = "____________________________________________________________\n"
@@ -21,8 +22,7 @@ public class Janet {
                 + "____________________________________________________________\n";
         System.out.print(banner);
 
-        Task[] tasks = new Task[MAX_TASKS];
-        int taskCount = 0;
+        ArrayList<Task> tasks = new ArrayList<>();
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
@@ -38,17 +38,17 @@ public class Janet {
             try {
             if (command.equals("list")) {
                 System.out.println(" Here are the tasks in your list:");
-                for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + "." + tasks[i].getTypeIcon()
-                            + "[" + tasks[i].getStatusIcon() + "] "
-                            + tasks[i].getDescription());
+                for (int i = 0; i < tasks.size(); i++) {
+                    System.out.println(" " + (i + 1) + "." + tasks.get(i).getTypeIcon()
+                            + "[" + tasks.get(i).getStatusIcon() + "] "
+                            + tasks.get(i).getDescription());
                 }
             } else if (command.equals("todo") || command.startsWith("todo ")) {
                 String description = command.length() > 5 ? command.substring(5).trim() : "";
                 if (description.isEmpty()) {
                     throw new InvalidCommandException("OOPS!!! A todo needs a description.");
                 }
-                taskCount = addTask(new Todo(description), tasks, taskCount);
+                addTask(new Todo(description), tasks);
             } else if (command.equals("event") || command.startsWith("event ")) {
                 String eventCommand = command.length() > 6 ? command.substring(6).trim() : "";
                 int fromIndex = eventCommand.indexOf(" /from ");
@@ -60,7 +60,7 @@ public class Janet {
                     if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
                         throw new InvalidCommandException("OOPS!!! An event needs a description, start, and end.");
                     }
-                    taskCount = addTask(new Event(description, start, end), tasks, taskCount);
+                    addTask(new Event(description, start, end), tasks);
                 } else {
                     throw new InvalidCommandException(
                             "Sorry, please use: event <task> /from <start> /to <end>.");
@@ -74,15 +74,15 @@ public class Janet {
                     if (description.isEmpty() || deadline.isEmpty()) {
                         throw new InvalidCommandException("OOPS!!! A deadline needs a description and due time.");
                     }
-                    taskCount = addTask(new Deadline(description, deadline), tasks, taskCount);
+                    addTask(new Deadline(description, deadline), tasks);
                 } else {
                     throw new InvalidCommandException(
                             "Sorry, please use: deadline <task> /by <date or time>.");
                 }
             } else if (command.startsWith("mark ")) {
-                markTask(command, tasks, taskCount);
+                markTask(command, tasks);
             } else if (command.startsWith("unmark ")) {
-                unmarkTask(command, tasks, taskCount);
+                unmarkTask(command, tasks);
             } else {
                 throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
             }
@@ -99,24 +99,20 @@ public class Janet {
      *
      * @param task the task to add
      * @param tasks the stored tasks
-     * @param taskCount the current number of tasks
-     * @return the updated number of tasks
      */
-    private static int addTask(Task task, Task[] tasks, int taskCount) {
-        if (taskCount >= MAX_TASKS) {
+    private static void addTask(Task task, ArrayList<Task> tasks) {
+        if (tasks.size() >= MAX_TASKS) {
             throw new TaskLimitException("Sorry, I can only store " + MAX_TASKS + " tasks.");
         }
 
-        tasks[taskCount] = task;
-        taskCount++;
+        tasks.add(task);
         if (task instanceof Todo || task instanceof Deadline || task instanceof Event) {
             System.out.println(" Got it. I've added this task:");
             System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
-            System.out.println(" Now you have " + taskCount + " tasks in the list.");
+            System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
         } else {
             System.out.println(" added: " + task.getDescription());
         }
-        return taskCount;
     }
 
     /**
@@ -124,10 +120,9 @@ public class Janet {
      *
      * @param command the complete command entered by the user
      * @param tasks the stored tasks
-     * @param taskCount the number of stored tasks
      */
-    private static void markTask(String command, Task[] tasks, int taskCount) {
-        Task task = getTask(command, 5, tasks, taskCount);
+    private static void markTask(String command, ArrayList<Task> tasks) {
+        Task task = getTask(command, 5, tasks);
         if (task == null) {
             return;
         }
@@ -143,10 +138,9 @@ public class Janet {
      *
      * @param command the complete command entered by the user
      * @param tasks the stored tasks
-     * @param taskCount the number of stored tasks
      */
-    private static void unmarkTask(String command, Task[] tasks, int taskCount) {
-        Task task = getTask(command, 7, tasks, taskCount);
+    private static void unmarkTask(String command, ArrayList<Task> tasks) {
+        Task task = getTask(command, 7, tasks);
         if (task == null) {
             return;
         }
@@ -163,10 +157,9 @@ public class Janet {
      * @param command the complete command entered by the user
      * @param numberStart the index where the task number begins
      * @param tasks the stored tasks
-     * @param taskCount the number of stored tasks
      * @return the selected task, or {@code null} if the command is invalid
      */
-    private static Task getTask(String command, int numberStart, Task[] tasks, int taskCount) {
+    private static Task getTask(String command, int numberStart, ArrayList<Task> tasks) {
         int taskNumber;
         try {
             taskNumber = Integer.parseInt(command.substring(numberStart).trim());
@@ -174,10 +167,10 @@ public class Janet {
             throw new InvalidTaskException("Sorry, please provide a valid task number.");
         }
 
-        if (taskNumber < 1 || taskNumber > taskCount) {
+        if (taskNumber < 1 || taskNumber > tasks.size()) {
             throw new InvalidTaskException("Sorry, that task number does not exist.");
         }
 
-        return tasks[taskNumber - 1];
+        return tasks.get(taskNumber - 1);
     }
 }
