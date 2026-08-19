@@ -43,27 +43,37 @@ public class Janet {
                             + "[" + tasks[i].getStatusIcon() + "] "
                             + tasks[i].getDescription());
                 }
-            } else if (command.startsWith("todo ")) {
-                taskCount = addTask(new Todo(command.substring(5).trim()), tasks, taskCount);
-            } else if (command.startsWith("event ")) {
-                String eventCommand = command.substring(6).trim();
+            } else if (command.equals("todo") || command.startsWith("todo ")) {
+                String description = command.length() > 5 ? command.substring(5).trim() : "";
+                if (description.isEmpty()) {
+                    throw new InvalidCommandException("OOPS!!! A todo needs a description.");
+                }
+                taskCount = addTask(new Todo(description), tasks, taskCount);
+            } else if (command.equals("event") || command.startsWith("event ")) {
+                String eventCommand = command.length() > 6 ? command.substring(6).trim() : "";
                 int fromIndex = eventCommand.indexOf(" /from ");
                 int toIndex = eventCommand.indexOf(" /to ");
                 if (fromIndex > 0 && toIndex > fromIndex) {
                     String description = eventCommand.substring(0, fromIndex).trim();
                     String start = eventCommand.substring(fromIndex + 7, toIndex).trim();
                     String end = eventCommand.substring(toIndex + 5).trim();
+                    if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
+                        throw new InvalidCommandException("OOPS!!! An event needs a description, start, and end.");
+                    }
                     taskCount = addTask(new Event(description, start, end), tasks, taskCount);
                 } else {
                     throw new InvalidCommandException(
                             "Sorry, please use: event <task> /from <start> /to <end>.");
                 }
-            } else if (command.startsWith("deadline ")) {
-                String deadlineCommand = command.substring(9).trim();
+            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+                String deadlineCommand = command.length() > 9 ? command.substring(9).trim() : "";
                 int byIndex = deadlineCommand.indexOf(" /by ");
                 if (byIndex > 0) {
                     String description = deadlineCommand.substring(0, byIndex).trim();
                     String deadline = deadlineCommand.substring(byIndex + 5).trim();
+                    if (description.isEmpty() || deadline.isEmpty()) {
+                        throw new InvalidCommandException("OOPS!!! A deadline needs a description and due time.");
+                    }
                     taskCount = addTask(new Deadline(description, deadline), tasks, taskCount);
                 } else {
                     throw new InvalidCommandException(
@@ -74,7 +84,7 @@ public class Janet {
             } else if (command.startsWith("unmark ")) {
                 unmarkTask(command, tasks, taskCount);
             } else {
-                taskCount = addTask(new Task(command), tasks, taskCount);
+                throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
             }
             } catch (JanetException exception) {
                 System.out.println(" " + exception.getMessage());

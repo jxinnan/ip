@@ -9,7 +9,7 @@ Aim: Verify that Janet stores a task, displays its status, marks it done, and re
 ### Inputs
 
 ```text
-read book
+todo read book
 list
 mark 1
 unmark 1
@@ -31,19 +31,21 @@ ____________________________________________________________
 Hi! I'm Janet! I'm here to help with absolutely anything.
 What can I do for you?
 ____________________________________________________________
- added: read book
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[ ] read book
+ 1.[T][ ] read book
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [X] read book
+   [T][X] read book
 ____________________________________________________________
  Okay, I've marked this task as not done yet:
-   [ ] read book
+   [T][ ] read book
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[ ] read book
+ 1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
  Okay! Have a wonderful day. Bye!
