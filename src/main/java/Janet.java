@@ -26,6 +26,8 @@ public class Janet {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
+            int firstSpace = command.indexOf(' ');
+            String commandName = firstSpace < 0 ? command : command.substring(0, firstSpace);
 
             if (command.equals("bye")) {
                 System.out.println("____________________________________________________________");
@@ -43,13 +45,13 @@ public class Janet {
                             + "[" + tasks.get(i).getStatusIcon() + "] "
                             + tasks.get(i).getDescription());
                 }
-            } else if (command.equals("todo") || command.startsWith("todo ")) {
+            } else if (commandName.equals("todo")) {
                 String description = command.length() > 5 ? command.substring(5).trim() : "";
                 if (description.isEmpty()) {
                     throw new InvalidCommandException("OOPS!!! A todo needs a description.");
                 }
                 addTask(new Todo(description), tasks);
-            } else if (command.equals("event") || command.startsWith("event ")) {
+            } else if (commandName.equals("event")) {
                 String eventCommand = command.length() > 6 ? command.substring(6).trim() : "";
                 int fromIndex = eventCommand.indexOf(" /from ");
                 int toIndex = eventCommand.indexOf(" /to ");
@@ -65,7 +67,7 @@ public class Janet {
                     throw new InvalidCommandException(
                             "Sorry, please use: event <task> /from <start> /to <end>.");
                 }
-            } else if (command.equals("deadline") || command.startsWith("deadline ")) {
+            } else if (commandName.equals("deadline")) {
                 String deadlineCommand = command.length() > 9 ? command.substring(9).trim() : "";
                 int byIndex = deadlineCommand.indexOf(" /by ");
                 if (byIndex > 0) {
@@ -79,11 +81,11 @@ public class Janet {
                     throw new InvalidCommandException(
                             "Sorry, please use: deadline <task> /by <date or time>.");
                 }
-            } else if (command.startsWith("delete ")) {
+            } else if (commandName.equals("delete")) {
                 deleteTask(command, tasks);
-            } else if (command.startsWith("mark ")) {
+            } else if (commandName.equals("mark")) {
                 markTask(command, tasks);
-            } else if (command.startsWith("unmark ")) {
+            } else if (commandName.equals("unmark")) {
                 unmarkTask(command, tasks);
             } else {
                 throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
