@@ -5,7 +5,7 @@ import java.util.Scanner;
  */
 public class Janet {
     /** Maximum number of tasks Janet can store during one run. */
-    private static final int MAX_TASKS = 3;
+    private static final int MAX_TASKS = 100;
 
     public static void main(String[] args) {
         String banner = "____________________________________________________________\n"
