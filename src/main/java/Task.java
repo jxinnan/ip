@@ -42,4 +42,11 @@ public class Task {
     public void markAsDone() {
         isDone = true;
     }
+
+    /**
+     * Marks this task as not done.
+     */
+    public void markAsUndone() {
+        isDone = false;
+    }
 }

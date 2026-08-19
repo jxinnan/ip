@@ -43,6 +43,8 @@ public class Janet {
                 }
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks, taskCount);
+            } else if (command.startsWith("unmark ")) {
+                unmarkTask(command, tasks, taskCount);
             } else if (taskCount < MAX_TASKS) {
                 tasks[taskCount] = new Task(command);
                 taskCount++;
@@ -70,6 +72,24 @@ public class Janet {
 
         task.markAsDone();
         System.out.println(" Nice! I've marked this task as done:");
+        System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
+    }
+
+    /**
+     * Marks the task selected by an {@code unmark <number>} command as not done.
+     *
+     * @param command the complete command entered by the user
+     * @param tasks the stored tasks
+     * @param taskCount the number of stored tasks
+     */
+    private static void unmarkTask(String command, Task[] tasks, int taskCount) {
+        Task task = getTask(command, 7, tasks, taskCount);
+        if (task == null) {
+            return;
+        }
+
+        task.markAsUndone();
+        System.out.println(" Okay, I've marked this task as not done yet:");
         System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
     }
 
