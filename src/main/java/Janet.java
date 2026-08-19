@@ -63,22 +63,39 @@ public class Janet {
      * @param taskCount the number of stored tasks
      */
     private static void markTask(String command, Task[] tasks, int taskCount) {
+        Task task = getTask(command, 5, tasks, taskCount);
+        if (task == null) {
+            return;
+        }
+
+        task.markAsDone();
+        System.out.println(" Nice! I've marked this task as done:");
+        System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
+    }
+
+    /**
+     * Finds the task selected by a command and validates its task number.
+     *
+     * @param command the complete command entered by the user
+     * @param numberStart the index where the task number begins
+     * @param tasks the stored tasks
+     * @param taskCount the number of stored tasks
+     * @return the selected task, or {@code null} if the command is invalid
+     */
+    private static Task getTask(String command, int numberStart, Task[] tasks, int taskCount) {
         int taskNumber;
         try {
-            taskNumber = Integer.parseInt(command.substring(5).trim());
+            taskNumber = Integer.parseInt(command.substring(numberStart).trim());
         } catch (NumberFormatException exception) {
             System.out.println(" Sorry, please provide a valid task number.");
-            return;
+            return null;
         }
 
         if (taskNumber < 1 || taskNumber > taskCount) {
             System.out.println(" Sorry, that task number does not exist.");
-            return;
+            return null;
         }
 
-        Task task = tasks[taskNumber - 1];
-        task.markAsDone();
-        System.out.println(" Nice! I've marked this task as done:");
-        System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
+        return tasks[taskNumber - 1];
     }
 }
