@@ -50,6 +50,52 @@ ____________________________________________________________
 ____________________________________________________________
 ```
 
+## Test case: Add and complete an event
+
+Aim: Verify that Janet creates an event, displays its start and end times, and preserves them when marking it done.
+
+### Inputs
+
+```text
+event project meeting /from Mon 2pm /to 4pm
+list
+mark 1
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [E][X] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[E][X] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
 ## Test case: Add and complete a deadline
 
 Aim: Verify that Janet creates a deadline, displays its due date, and preserves that information when marking it done.

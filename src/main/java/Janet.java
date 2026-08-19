@@ -52,6 +52,27 @@ public class Janet {
                 } else {
                     System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
                 }
+            } else if (command.startsWith("event ")) {
+                if (taskCount < MAX_TASKS) {
+                    String eventCommand = command.substring(6).trim();
+                    int fromIndex = eventCommand.indexOf(" /from ");
+                    int toIndex = eventCommand.indexOf(" /to ");
+                    if (fromIndex > 0 && toIndex > fromIndex) {
+                        String description = eventCommand.substring(0, fromIndex).trim();
+                        String start = eventCommand.substring(fromIndex + 7, toIndex).trim();
+                        String end = eventCommand.substring(toIndex + 5).trim();
+                        tasks[taskCount] = new Event(description, start, end);
+                        taskCount++;
+                        Task task = tasks[taskCount - 1];
+                        System.out.println(" Got it. I've added this task:");
+                        System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
+                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    } else {
+                        System.out.println(" Sorry, please use: event <task> /from <start> /to <end>.");
+                    }
+                } else {
+                    System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
+                }
             } else if (command.startsWith("deadline ")) {
                 if (taskCount < MAX_TASKS) {
                     String deadlineCommand = command.substring(9).trim();

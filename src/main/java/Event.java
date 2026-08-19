@@ -1,0 +1,43 @@
+/**
+ * Represents a task that takes place between a start and an end date or time.
+ */
+public class Event extends Task {
+    /** The date or time when this event starts. */
+    private String start;
+
+    /** The date or time when this event ends. */
+    private String end;
+
+    /**
+     * Creates a new incomplete event task.
+     *
+     * @param description the text describing the event
+     * @param start the event start date or time
+     * @param end the event end date or time
+     */
+    public Event(String description, String start, String end) {
+        super(description);
+        this.start = start;
+        this.end = end;
+    }
+
+    /**
+     * Returns the icon identifying this task as an event.
+     *
+     * @return the event type icon
+     */
+    @Override
+    public String getTypeIcon() {
+        return "[E]";
+    }
+
+    /**
+     * Returns the event description together with its time range.
+     *
+     * @return the description and event time range
+     */
+    @Override
+    public String getDescription() {
+        return description + " (from: " + start + " to: " + end + ")";
+    }
+}
