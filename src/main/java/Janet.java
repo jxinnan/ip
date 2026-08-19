@@ -79,6 +79,8 @@ public class Janet {
                     throw new InvalidCommandException(
                             "Sorry, please use: deadline <task> /by <date or time>.");
                 }
+            } else if (command.startsWith("delete ")) {
+                deleteTask(command, tasks);
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks);
             } else if (command.startsWith("unmark ")) {
@@ -149,6 +151,21 @@ public class Janet {
         System.out.println(" Okay, I've marked this task as not done yet:");
         System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
                 + task.getDescription());
+    }
+
+    /**
+     * Removes the task selected by a {@code delete <number>} command.
+     *
+     * @param command the complete command entered by the user
+     * @param tasks the stored tasks
+     */
+    private static void deleteTask(String command, ArrayList<Task> tasks) {
+        Task task = getTask(command, 7, tasks);
+        System.out.println(" Noted. I've removed this task:");
+        System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
+                + task.getDescription());
+        tasks.remove(task);
+        System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
     }
 
     /**
