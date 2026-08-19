@@ -26,10 +26,9 @@ public class Janet {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
-            int firstSpace = command.indexOf(' ');
-            String commandName = firstSpace < 0 ? command : command.substring(0, firstSpace);
+            CommandName commandName = CommandName.from(command);
 
-            if (command.equals("bye")) {
+            if (commandName == CommandName.BYE) {
                 System.out.println("____________________________________________________________");
                 System.out.println(" Okay! Have a wonderful day. Bye!");
                 System.out.println("____________________________________________________________");
@@ -38,20 +37,20 @@ public class Janet {
             }
 
             try {
-            if (command.equals("list")) {
+            if (commandName == CommandName.LIST) {
                 System.out.println(" Here are the tasks in your list:");
                 for (int i = 0; i < tasks.size(); i++) {
                     System.out.println(" " + (i + 1) + "." + tasks.get(i).getTypeIcon()
                             + "[" + tasks.get(i).getStatusIcon() + "] "
                             + tasks.get(i).getDescription());
                 }
-            } else if (commandName.equals("todo")) {
+            } else if (commandName == CommandName.TODO) {
                 String description = command.length() > 5 ? command.substring(5).trim() : "";
                 if (description.isEmpty()) {
                     throw new InvalidCommandException("OOPS!!! A todo needs a description.");
                 }
                 addTask(new Todo(description), tasks);
-            } else if (commandName.equals("event")) {
+            } else if (commandName == CommandName.EVENT) {
                 String eventCommand = command.length() > 6 ? command.substring(6).trim() : "";
                 int fromIndex = eventCommand.indexOf(" /from ");
                 int toIndex = eventCommand.indexOf(" /to ");
@@ -67,7 +66,7 @@ public class Janet {
                     throw new InvalidCommandException(
                             "Sorry, please use: event <task> /from <start> /to <end>.");
                 }
-            } else if (commandName.equals("deadline")) {
+            } else if (commandName == CommandName.DEADLINE) {
                 String deadlineCommand = command.length() > 9 ? command.substring(9).trim() : "";
                 int byIndex = deadlineCommand.indexOf(" /by ");
                 if (byIndex > 0) {
@@ -81,11 +80,11 @@ public class Janet {
                     throw new InvalidCommandException(
                             "Sorry, please use: deadline <task> /by <date or time>.");
                 }
-            } else if (commandName.equals("delete")) {
+            } else if (commandName == CommandName.DELETE) {
                 deleteTask(command, tasks);
-            } else if (commandName.equals("mark")) {
+            } else if (commandName == CommandName.MARK) {
                 markTask(command, tasks);
-            } else if (commandName.equals("unmark")) {
+            } else if (commandName == CommandName.UNMARK) {
                 unmarkTask(command, tasks);
             } else {
                 throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
