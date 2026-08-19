@@ -50,6 +50,52 @@ ____________________________________________________________
 ____________________________________________________________
 ```
 
+## Test case: Add and complete a deadline
+
+Aim: Verify that Janet creates a deadline, displays its due date, and preserves that information when marking it done.
+
+### Inputs
+
+```text
+deadline return book /by Sunday
+list
+mark 1
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Sunday)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] return book (by: Sunday)
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [D][X] return book (by: Sunday)
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][X] return book (by: Sunday)
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
 ## Test case: Add and complete a to-do
 
 Aim: Verify that Janet creates a to-do, displays its type icon, and preserves that type when marking it done.

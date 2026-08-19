@@ -52,6 +52,25 @@ public class Janet {
                 } else {
                     System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
                 }
+            } else if (command.startsWith("deadline ")) {
+                if (taskCount < MAX_TASKS) {
+                    String deadlineCommand = command.substring(9).trim();
+                    int byIndex = deadlineCommand.indexOf(" /by ");
+                    if (byIndex > 0) {
+                        String description = deadlineCommand.substring(0, byIndex).trim();
+                        String deadline = deadlineCommand.substring(byIndex + 5).trim();
+                        tasks[taskCount] = new Deadline(description, deadline);
+                        taskCount++;
+                        Task task = tasks[taskCount - 1];
+                        System.out.println(" Got it. I've added this task:");
+                        System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
+                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
+                    } else {
+                        System.out.println(" Sorry, please use: deadline <task> /by <date or time>.");
+                    }
+                } else {
+                    System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
+                }
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks, taskCount);
             } else if (command.startsWith("unmark ")) {
