@@ -43,69 +43,67 @@ public class Janet {
                             + tasks[i].getDescription());
                 }
             } else if (command.startsWith("todo ")) {
-                if (taskCount < MAX_TASKS) {
-                    tasks[taskCount] = new Todo(command.substring(5).trim());
-                    taskCount++;
-                    System.out.println(" Got it. I've added this task:");
-                    System.out.println("   [T][ ] " + tasks[taskCount - 1].getDescription());
-                    System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                } else {
-                    System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
-                }
+                taskCount = addTask(new Todo(command.substring(5).trim()), tasks, taskCount);
             } else if (command.startsWith("event ")) {
-                if (taskCount < MAX_TASKS) {
-                    String eventCommand = command.substring(6).trim();
-                    int fromIndex = eventCommand.indexOf(" /from ");
-                    int toIndex = eventCommand.indexOf(" /to ");
-                    if (fromIndex > 0 && toIndex > fromIndex) {
-                        String description = eventCommand.substring(0, fromIndex).trim();
-                        String start = eventCommand.substring(fromIndex + 7, toIndex).trim();
-                        String end = eventCommand.substring(toIndex + 5).trim();
-                        tasks[taskCount] = new Event(description, start, end);
-                        taskCount++;
-                        Task task = tasks[taskCount - 1];
-                        System.out.println(" Got it. I've added this task:");
-                        System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
-                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                    } else {
-                        System.out.println(" Sorry, please use: event <task> /from <start> /to <end>.");
-                    }
+                String eventCommand = command.substring(6).trim();
+                int fromIndex = eventCommand.indexOf(" /from ");
+                int toIndex = eventCommand.indexOf(" /to ");
+                if (fromIndex > 0 && toIndex > fromIndex) {
+                    String description = eventCommand.substring(0, fromIndex).trim();
+                    String start = eventCommand.substring(fromIndex + 7, toIndex).trim();
+                    String end = eventCommand.substring(toIndex + 5).trim();
+                    taskCount = addTask(new Event(description, start, end), tasks, taskCount);
                 } else {
-                    System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
+                    System.out.println(" Sorry, please use: event <task> /from <start> /to <end>.");
                 }
             } else if (command.startsWith("deadline ")) {
-                if (taskCount < MAX_TASKS) {
-                    String deadlineCommand = command.substring(9).trim();
-                    int byIndex = deadlineCommand.indexOf(" /by ");
-                    if (byIndex > 0) {
-                        String description = deadlineCommand.substring(0, byIndex).trim();
-                        String deadline = deadlineCommand.substring(byIndex + 5).trim();
-                        tasks[taskCount] = new Deadline(description, deadline);
-                        taskCount++;
-                        Task task = tasks[taskCount - 1];
-                        System.out.println(" Got it. I've added this task:");
-                        System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
-                        System.out.println(" Now you have " + taskCount + " tasks in the list.");
-                    } else {
-                        System.out.println(" Sorry, please use: deadline <task> /by <date or time>.");
-                    }
+                String deadlineCommand = command.substring(9).trim();
+                int byIndex = deadlineCommand.indexOf(" /by ");
+                if (byIndex > 0) {
+                    String description = deadlineCommand.substring(0, byIndex).trim();
+                    String deadline = deadlineCommand.substring(byIndex + 5).trim();
+                    taskCount = addTask(new Deadline(description, deadline), tasks, taskCount);
                 } else {
-                    System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
+                    System.out.println(" Sorry, please use: deadline <task> /by <date or time>.");
                 }
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks, taskCount);
             } else if (command.startsWith("unmark ")) {
                 unmarkTask(command, tasks, taskCount);
             } else if (taskCount < MAX_TASKS) {
-                tasks[taskCount] = new Task(command);
-                taskCount++;
-                System.out.println(" added: " + command);
+                taskCount = addTask(new Task(command), tasks, taskCount);
             } else {
                 System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
             }
 
             System.out.println("____________________________________________________________");
         }
+    }
+
+    /**
+     * Adds a task to the list and prints the appropriate confirmation.
+     *
+     * @param task the task to add
+     * @param tasks the stored tasks
+     * @param taskCount the current number of tasks
+     * @return the updated number of tasks
+     */
+    private static int addTask(Task task, Task[] tasks, int taskCount) {
+        if (taskCount >= MAX_TASKS) {
+            System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
+            return taskCount;
+        }
+
+        tasks[taskCount] = task;
+        taskCount++;
+        if (task instanceof Todo || task instanceof Deadline || task instanceof Event) {
+            System.out.println(" Got it. I've added this task:");
+            System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
+            System.out.println(" Now you have " + taskCount + " tasks in the list.");
+        } else {
+            System.out.println(" added: " + task.getDescription());
+        }
+        return taskCount;
     }
 
     /**
