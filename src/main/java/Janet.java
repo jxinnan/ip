@@ -36,9 +36,13 @@ public class Janet {
             }
 
             if (command.equals("list")) {
+                System.out.println(" Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
-                    System.out.println(" " + (i + 1) + ". " + tasks[i].getDescription());
+                    System.out.println(" " + (i + 1) + ".[" + tasks[i].getStatusIcon() + "] "
+                            + tasks[i].getDescription());
                 }
+            } else if (command.startsWith("mark ")) {
+                markTask(command, tasks, taskCount);
             } else if (taskCount < MAX_TASKS) {
                 tasks[taskCount] = new Task(command);
                 taskCount++;
@@ -49,5 +53,32 @@ public class Janet {
 
             System.out.println("____________________________________________________________");
         }
+    }
+
+    /**
+     * Marks the task selected by a {@code mark <number>} command as done.
+     *
+     * @param command the complete command entered by the user
+     * @param tasks the stored tasks
+     * @param taskCount the number of stored tasks
+     */
+    private static void markTask(String command, Task[] tasks, int taskCount) {
+        int taskNumber;
+        try {
+            taskNumber = Integer.parseInt(command.substring(5).trim());
+        } catch (NumberFormatException exception) {
+            System.out.println(" Sorry, please provide a valid task number.");
+            return;
+        }
+
+        if (taskNumber < 1 || taskNumber > taskCount) {
+            System.out.println(" Sorry, that task number does not exist.");
+            return;
+        }
+
+        Task task = tasks[taskNumber - 1];
+        task.markAsDone();
+        System.out.println(" Nice! I've marked this task as done:");
+        System.out.println("   [" + task.getStatusIcon() + "] " + task.getDescription());
     }
 }

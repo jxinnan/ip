@@ -35,4 +35,11 @@ public class Task {
     public String getDescription() {
         return description;
     }
+
+    /**
+     * Marks this task as done.
+     */
+    public void markAsDone() {
+        isDone = true;
+    }
 }
