@@ -1,7 +1,7 @@
 /**
  * Represents a task that can be stored by Janet.
  */
-public class Task {
+public abstract class Task {
     /** The text describing this task. */
     protected String description;
 
@@ -13,7 +13,7 @@ public class Task {
      *
      * @param description the text describing the task
      */
-    public Task(String description) {
+    protected Task(String description) {
         this.description = description;
         this.isDone = false;
     }
@@ -30,11 +30,9 @@ public class Task {
     /**
      * Returns the icon identifying this task type.
      *
-     * @return an empty string for a general task
+     * @return the icon identifying the concrete task type
      */
-    public String getTypeIcon() {
-        return "";
-    }
+    public abstract String getTypeIcon();
 
     /**
      * Returns the task description.

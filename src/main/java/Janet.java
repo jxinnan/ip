@@ -108,13 +108,9 @@ public class Janet {
         }
 
         tasks.add(task);
-        if (task instanceof Todo || task instanceof Deadline || task instanceof Event) {
-            System.out.println(" Got it. I've added this task:");
-            System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
-            System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
-        } else {
-            System.out.println(" added: " + task.getDescription());
-        }
+        System.out.println(" Got it. I've added this task:");
+        System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
+        System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
     }
 
     /**
