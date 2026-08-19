@@ -35,6 +35,7 @@ public class Janet {
                 break;
             }
 
+            try {
             if (command.equals("list")) {
                 System.out.println(" Here are the tasks in your list:");
                 for (int i = 0; i < taskCount; i++) {
@@ -54,7 +55,8 @@ public class Janet {
                     String end = eventCommand.substring(toIndex + 5).trim();
                     taskCount = addTask(new Event(description, start, end), tasks, taskCount);
                 } else {
-                    System.out.println(" Sorry, please use: event <task> /from <start> /to <end>.");
+                    throw new InvalidCommandException(
+                            "Sorry, please use: event <task> /from <start> /to <end>.");
                 }
             } else if (command.startsWith("deadline ")) {
                 String deadlineCommand = command.substring(9).trim();
@@ -64,16 +66,18 @@ public class Janet {
                     String deadline = deadlineCommand.substring(byIndex + 5).trim();
                     taskCount = addTask(new Deadline(description, deadline), tasks, taskCount);
                 } else {
-                    System.out.println(" Sorry, please use: deadline <task> /by <date or time>.");
+                    throw new InvalidCommandException(
+                            "Sorry, please use: deadline <task> /by <date or time>.");
                 }
             } else if (command.startsWith("mark ")) {
                 markTask(command, tasks, taskCount);
             } else if (command.startsWith("unmark ")) {
                 unmarkTask(command, tasks, taskCount);
-            } else if (taskCount < MAX_TASKS) {
-                taskCount = addTask(new Task(command), tasks, taskCount);
             } else {
-                System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
+                taskCount = addTask(new Task(command), tasks, taskCount);
+            }
+            } catch (JanetException exception) {
+                System.out.println(" " + exception.getMessage());
             }
 
             System.out.println("____________________________________________________________");
@@ -90,8 +94,7 @@ public class Janet {
      */
     private static int addTask(Task task, Task[] tasks, int taskCount) {
         if (taskCount >= MAX_TASKS) {
-            System.out.println(" Sorry, I can only store " + MAX_TASKS + " tasks.");
-            return taskCount;
+            throw new TaskLimitException("Sorry, I can only store " + MAX_TASKS + " tasks.");
         }
 
         tasks[taskCount] = task;
@@ -158,13 +161,11 @@ public class Janet {
         try {
             taskNumber = Integer.parseInt(command.substring(numberStart).trim());
         } catch (NumberFormatException exception) {
-            System.out.println(" Sorry, please provide a valid task number.");
-            return null;
+            throw new InvalidTaskException("Sorry, please provide a valid task number.");
         }
 
         if (taskNumber < 1 || taskNumber > taskCount) {
-            System.out.println(" Sorry, that task number does not exist.");
-            return null;
+            throw new InvalidTaskException("Sorry, that task number does not exist.");
         }
 
         return tasks[taskNumber - 1];
