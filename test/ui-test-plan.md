@@ -3,6 +3,68 @@
 The runner executes each test case in order. Expected output is compared exactly.
 Each case runs in a fresh temporary folder. Cases may provide an initial data file or assert the saved file.
 
+## Test case: Find tasks by keyword
+
+Aim: Verify that Janet displays tasks whose descriptions contain a keyword and rejects an empty keyword without changing the list.
+
+### Inputs
+
+```text
+todo read book
+deadline return book /by 2019-12-02
+event project meeting /from Mon 2pm /to 4pm
+find book
+find
+find meeting
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] return book (by: Dec 02 2019)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[T][ ] read book
+ 2.[D][ ] return book (by: Dec 02 2019)
+____________________________________________________________
+ OOPS!!! A find command needs a keyword.
+____________________________________________________________
+ Here are the matching tasks in your list:
+ 1.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+ 2.[D][ ] return book (by: Dec 02 2019)
+ 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
 ## Test case: Save task changes automatically
 
 Aim: Verify that adding and marking a task writes its current state to Janet's relative data file.

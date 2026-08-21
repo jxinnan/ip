@@ -57,6 +57,25 @@ public class Ui {
      */
     public void showTaskList(List<Task> tasks) {
         System.out.println(" Here are the tasks in your list:");
+        showTasks(tasks);
+    }
+
+    /**
+     * Shows tasks matching a user-entered keyword.
+     *
+     * @param tasks matching tasks to display
+     */
+    public void showMatchingTasks(List<Task> tasks) {
+        System.out.println(" Here are the matching tasks in your list:");
+        showTasks(tasks);
+    }
+
+    /**
+     * Shows tasks as a numbered list.
+     *
+     * @param tasks tasks to display
+     */
+    private void showTasks(List<Task> tasks) {
         for (int index = 0; index < tasks.size(); index++) {
             Task task = tasks.get(index);
             System.out.println(" " + (index + 1) + "." + task.getTypeIcon()

@@ -69,6 +69,22 @@ public class TaskList {
     }
 
     /**
+     * Returns tasks whose unformatted descriptions contain a keyword.
+     *
+     * @param keyword text to search for
+     * @return matching tasks in their original order
+     */
+    public List<Task> find(String keyword) {
+        List<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getRawDescription().contains(keyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
+    }
+
+    /**
      * Returns the number of tasks in this list.
      *
      * @return the number of tasks

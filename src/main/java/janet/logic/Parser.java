@@ -29,6 +29,7 @@ public class Parser {
         case DELETE -> new DeleteCommand(parseTaskNumber(userInput, 7));
         case MARK -> new MarkCommand(parseTaskNumber(userInput, 5));
         case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput, 7));
+        case FIND -> new FindCommand(parseKeyword(userInput));
         case BYE -> new ExitCommand();
         case UNKNOWN -> throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
         };
@@ -121,5 +122,19 @@ public class Parser {
         } catch (NumberFormatException exception) {
             throw new InvalidTaskException("Sorry, please provide a valid task number.");
         }
+    }
+
+    /**
+     * Parses the keyword supplied to a find command.
+     *
+     * @param userInput complete command text
+     * @return the non-empty keyword to search for
+     */
+    private static String parseKeyword(String userInput) {
+        String keyword = userInput.length() > 5 ? userInput.substring(5).trim() : "";
+        if (keyword.isEmpty()) {
+            throw new InvalidCommandException("OOPS!!! A find command needs a keyword.");
+        }
+        return keyword;
     }
 }
