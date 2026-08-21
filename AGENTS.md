@@ -41,14 +41,14 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Java coding standards
 
-Before editing or reviewing Java code, invoke the project-specific `java-coding-standards` skill and run its `scripts/check_java_format.py` checker. Run the checker again after Java edits, and fix any reported violations. Follow its course-standard-first guidance, using Google Java Style only where the course standard is silent. After Java edits, format the changed code with Visual Studio Code's Format Document when available and inspect the diff; do not configure its Google Style formatter profile because it conflicts with this project's four-space indentation and 120-character limit.
+Before editing or reviewing Java code, invoke the project-specific `seedu-java-coding-standard` and `java-coding-standards` skills, then run the latter's `scripts/check_java_format.py` checker. Run the checker again after Java edits, and fix any reported violations. Follow the SE-EDU course-standard-first guidance, using Google Java Style only where the course standard is silent. After Java edits, format the changed code with Visual Studio Code's Format Document when available and inspect the diff; do not configure its Google Style formatter profile because it conflicts with this project's four-space indentation and 120-character limit.
 
 Keep JUnit coverage focused on the top ~50% highest-value methods: prioritize core, complex, and critical behavior. Update the relevant JUnit tests after each code change to maintain this target.
 
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
-Before proposing, validating, or creating any commit, invoke the project-specific `git-commit-messages` skill. Ensure the final message complies with its subject and body requirements, revising a user-supplied message when necessary before committing.
+Before proposing, validating, or creating any commit, invoke the project-specific `seedu-git-standard` and `git-commit-messages` skills. Ensure the final message complies with their subject and body requirements, revising a user-supplied message when necessary before committing.
 Do not commit or push unless explicitly asked.
 
 ## UI testing after code changes
