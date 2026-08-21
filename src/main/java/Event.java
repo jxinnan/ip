@@ -22,6 +22,24 @@ public class Event extends Task {
     }
 
     /**
+     * Returns the event start in the form it was supplied by the user.
+     *
+     * @return the unformatted event start
+     */
+    public String getStart() {
+        return start;
+    }
+
+    /**
+     * Returns the event end in the form it was supplied by the user.
+     *
+     * @return the unformatted event end
+     */
+    public String getEnd() {
+        return end;
+    }
+
+    /**
      * Returns the icon identifying this task as an event.
      *
      * @return the event type icon

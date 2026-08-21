@@ -17,6 +17,15 @@ public class Deadline extends Task {
     }
 
     /**
+     * Returns the deadline in the form it was supplied by the user.
+     *
+     * @return the unformatted deadline
+     */
+    public String getDeadline() {
+        return deadline;
+    }
+
+    /**
      * Returns the icon identifying this task as a deadline.
      *
      * @return the deadline type icon
