@@ -44,6 +44,24 @@ public abstract class Task {
     }
 
     /**
+     * Returns the unformatted description used for storage.
+     *
+     * @return the task description without type-specific details
+     */
+    public String getRawDescription() {
+        return description;
+    }
+
+    /**
+     * Returns whether this task is complete.
+     *
+     * @return whether this task has been marked as done
+     */
+    public boolean isDone() {
+        return isDone;
+    }
+
+    /**
      * Marks this task as done.
      */
     public void markAsDone() {
