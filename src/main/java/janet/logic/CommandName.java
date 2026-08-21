@@ -11,6 +11,7 @@ public enum CommandName {
     DELETE,
     MARK,
     UNMARK,
+    FIND,
     BYE,
     UNKNOWN;
 
