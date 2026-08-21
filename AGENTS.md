@@ -22,6 +22,17 @@ Unless the user says otherwise, assume that you are assisting a student working 
   * Make generated code as self-explanatory as possible, and include explanatory comments where they improve understanding.
   * When faced with a design choice, choose the simplest option that is sufficient for the requirements, while briefly explaining relevant more advanced alternatives.
 
+## Task decomposition and verification
+
+For non-trivial tasks:
+
+1. Break the work into smaller, independently verifiable problems where practical.
+2. For each problem:
+   1. Identify expected behavior, including normal cases, boundaries, edge cases, invalid input, and likely failure modes.
+   2. Make the smallest appropriate change.
+   3. Run the relevant tests and check that existing behavior remains intact.
+3. If the user explicitly requests commits, make small, logically grouped commits after verifying each meaningful increment. Do not commit or push without explicit authorization.
+
 # Project-specific requirements
 
 ## Java version:
