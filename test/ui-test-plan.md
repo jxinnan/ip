@@ -74,7 +74,7 @@ What can I do for you?
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][X] read book
- 2.[D][ ] return book (by: Sunday)
+ 2.[D][ ] return book (by: Dec 02 2019)
  3.[E][X] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
@@ -86,7 +86,7 @@ ____________________________________________________________
 
 ```text
 T	1	read book
-D	0	return book	Sunday
+D	0	return book	2019-12-02
 E	1	project meeting	Mon 2pm	4pm
 ```
 
@@ -148,7 +148,7 @@ Aim: Verify that Janet removes the selected task and reports the updated task co
 
 ```text
 todo read book
-deadline return book /by Sunday
+deadline return book /by 2019-12-02
 event project meeting /from Mon 2pm /to 4pm
 delete 3
 list
@@ -174,7 +174,7 @@ ____________________________________________________________
  Now you have 1 tasks in the list.
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Dec 02 2019)
  Now you have 2 tasks in the list.
 ____________________________________________________________
  Got it. I've added this task:
@@ -187,7 +187,7 @@ ____________________________________________________________
 ____________________________________________________________
  Here are the tasks in your list:
  1.[T][ ] read book
- 2.[D][ ] return book (by: Sunday)
+ 2.[D][ ] return book (by: Dec 02 2019)
 ____________________________________________________________
 ____________________________________________________________
  Okay! Have a wonderful day. Bye!
@@ -247,7 +247,7 @@ Aim: Verify that Janet creates a deadline, displays its due date, and preserves 
 ### Inputs
 
 ```text
-deadline return book /by Sunday
+deadline return book /by 2019-12-02
 list
 mark 1
 list
@@ -269,21 +269,27 @@ Hi! I'm Janet! I'm here to help with absolutely anything.
 What can I do for you?
 ____________________________________________________________
  Got it. I've added this task:
-   [D][ ] return book (by: Sunday)
+   [D][ ] return book (by: Dec 02 2019)
  Now you have 1 tasks in the list.
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[D][ ] return book (by: Sunday)
+ 1.[D][ ] return book (by: Dec 02 2019)
 ____________________________________________________________
  Nice! I've marked this task as done:
-   [D][X] return book (by: Sunday)
+   [D][X] return book (by: Dec 02 2019)
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[D][X] return book (by: Sunday)
+ 1.[D][X] return book (by: Dec 02 2019)
 ____________________________________________________________
 ____________________________________________________________
  Okay! Have a wonderful day. Bye!
 ____________________________________________________________
+```
+
+### Expected saved data
+
+```text
+D	1	return book	2019-12-02
 ```
 
 ## Test case: Add and complete a to-do
@@ -389,6 +395,7 @@ Aim: Verify that malformed structured commands are rejected and do not add tasks
 deadline
 deadline submit report /by
 deadline submit report /by Friday
+deadline submit report /by 2019-12-06
 event meeting /from Mon 2pm
 event meeting /from Mon 2pm /to
 event meeting /from /to 4pm
@@ -415,8 +422,10 @@ ____________________________________________________________
 ____________________________________________________________
  Sorry, please use: deadline <task> /by <date or time>.
 ____________________________________________________________
+ Sorry, please provide a deadline date in yyyy-MM-dd format.
+____________________________________________________________
  Got it. I've added this task:
-   [D][ ] submit report (by: Friday)
+   [D][ ] submit report (by: Dec 06 2019)
  Now you have 1 tasks in the list.
 ____________________________________________________________
  Sorry, please use: event <task> /from <start> /to <end>.
@@ -430,7 +439,7 @@ ____________________________________________________________
  Now you have 2 tasks in the list.
 ____________________________________________________________
  Here are the tasks in your list:
- 1.[D][ ] submit report (by: Friday)
+ 1.[D][ ] submit report (by: Dec 06 2019)
  2.[E][ ] meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
