@@ -35,7 +35,7 @@ Before editing or reviewing Java code, invoke the project-specific `java-coding-
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
-When proposing or creating a commit message, include enough detail to explain the rationale for the change.
+Before proposing, validating, or creating any commit, invoke the project-specific `git-commit-messages` skill. Ensure the final message complies with its subject and body requirements, revising a user-supplied message when necessary before committing.
 Do not commit or push unless explicitly asked.
 
 ## UI testing after code changes
