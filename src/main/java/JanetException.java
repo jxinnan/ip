@@ -11,24 +11,3 @@ public class JanetException extends RuntimeException {
         super(message);
     }
 }
-
-/** Indicates that Janet has reached its task capacity. */
-class TaskLimitException extends JanetException {
-    TaskLimitException(String message) {
-        super(message);
-    }
-}
-
-/** Indicates that a structured command is malformed. */
-class InvalidCommandException extends JanetException {
-    InvalidCommandException(String message) {
-        super(message);
-    }
-}
-
-/** Indicates that a task number is invalid or does not exist. */
-class InvalidTaskException extends JanetException {
-    InvalidTaskException(String message) {
-        super(message);
-    }
-}
