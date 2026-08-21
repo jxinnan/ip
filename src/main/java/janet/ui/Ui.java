@@ -1,5 +1,9 @@
+package janet.ui;
+
 import java.util.List;
 import java.util.Scanner;
+
+import janet.task.Task;
 
 /**
  * Handles Janet's console input and output.

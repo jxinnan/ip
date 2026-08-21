@@ -1,3 +1,5 @@
+package janet.exception;
+
 /**
  * Base exception for errors specific to Janet's command handling.
  */

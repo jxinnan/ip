@@ -1,3 +1,5 @@
+package janet.logic;
+
 /**
  * The commands Janet understands at the start of user input.
  */
