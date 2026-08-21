@@ -30,6 +30,17 @@ Prerequisites: JDK 25, update Intellij to the most recent version.
 
 **Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
 
+## Building and running with Gradle
+
+From the project root, use the included Gradle wrapper. It downloads the required Gradle version when necessary, then builds and runs Janet with Java 25.
+
+```bash
+./gradlew build
+./gradlew run
+```
+
+On Windows, use `gradlew.bat build` and `gradlew.bat run` instead. Gradle also runs the JUnit tests with `./gradlew test` and creates the distributable JAR with `./gradlew shadowJar`.
+
 ## AI usage
 
 I used OpenAI Codex, an AI coding assistant, while developing this project. Codex was used to generate and refactor Java code, create the project-specific UI testing skill and test plan, and invoke defined test plans. I reviewed the generated changes, selected the final designs and wording, and verified the resulting behavior with the UI tests.
