@@ -32,6 +32,11 @@ public abstract class Command {
 class AddCommand extends Command {
     private final Task task;
 
+    /**
+     * Creates a command that adds one task.
+     *
+     * @param task task to add
+     */
     AddCommand(Task task) {
         this.task = task;
     }
@@ -56,6 +61,11 @@ class ListCommand extends Command {
 class DeleteCommand extends Command {
     private final int taskNumber;
 
+    /**
+     * Creates a command that deletes one task.
+     *
+     * @param taskNumber one-based number of the task to delete
+     */
     DeleteCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
@@ -72,6 +82,11 @@ class DeleteCommand extends Command {
 class MarkCommand extends Command {
     private final int taskNumber;
 
+    /**
+     * Creates a command that marks one task as complete.
+     *
+     * @param taskNumber one-based number of the task to mark
+     */
     MarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
@@ -89,6 +104,11 @@ class MarkCommand extends Command {
 class UnmarkCommand extends Command {
     private final int taskNumber;
 
+    /**
+     * Creates a command that marks one task as incomplete.
+     *
+     * @param taskNumber one-based number of the task to unmark
+     */
     UnmarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;
     }
