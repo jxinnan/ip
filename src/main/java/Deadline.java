@@ -1,27 +1,35 @@
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
+
 /**
  * Represents a task that must be completed before a specified date or time.
  */
 public class Deadline extends Task {
-    /** The date or time by which this task should be completed. */
-    private String deadline;
+    /** Formatter used to present deadline dates in a readable form. */
+    private static final DateTimeFormatter DISPLAY_FORMAT =
+            DateTimeFormatter.ofPattern("MMM dd uuuu", Locale.ENGLISH);
+
+    /** The date by which this task should be completed. */
+    private LocalDate deadline;
 
     /**
      * Creates a new incomplete deadline task.
      *
      * @param description the text describing the task
-     * @param deadline the date or time by which the task is due
+     * @param deadline the date by which the task is due
      */
-    public Deadline(String description, String deadline) {
+    public Deadline(String description, LocalDate deadline) {
         super(description);
         this.deadline = deadline;
     }
 
     /**
-     * Returns the deadline in the form it was supplied by the user.
+     * Returns the deadline date.
      *
-     * @return the unformatted deadline
+     * @return the deadline date
      */
-    public String getDeadline() {
+    public LocalDate getDeadline() {
         return deadline;
     }
 
@@ -42,6 +50,6 @@ public class Deadline extends Task {
      */
     @Override
     public String getDescription() {
-        return description + " (by: " + deadline + ")";
+        return description + " (by: " + deadline.format(DISPLAY_FORMAT) + ")";
     }
 }

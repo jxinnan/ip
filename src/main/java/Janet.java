@@ -1,4 +1,6 @@
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -86,7 +88,12 @@ public class Janet {
                     if (description.isEmpty() || deadline.isEmpty()) {
                         throw new InvalidCommandException("OOPS!!! A deadline needs a description and due time.");
                     }
-                    addTask(new Deadline(description, deadline), tasks);
+                    try {
+                        addTask(new Deadline(description, LocalDate.parse(deadline)), tasks);
+                    } catch (DateTimeParseException exception) {
+                        throw new InvalidCommandException(
+                                "Sorry, please provide a deadline date in yyyy-MM-dd format.");
+                    }
                 } else {
                     throw new InvalidCommandException(
                             "Sorry, please use: deadline <task> /by <date or time>.");
@@ -244,25 +251,30 @@ public class Janet {
             return null;
         }
 
-        Task task;
-        if (parts[0].equals("T") && parts.length == 3) {
-            task = new Todo(parts[2]);
-        } else if (parts[0].equals("D") && parts.length == 4) {
-            task = new Deadline(parts[2], parts[3]);
-        } else if (parts[0].equals("E") && parts.length == 5) {
-            task = new Event(parts[2], parts[3], parts[4]);
-        } else {
-            System.err.println("Ignoring malformed saved task: " + line);
-            return null;
-        }
+        try {
+            Task task;
+            if (parts[0].equals("T") && parts.length == 3) {
+                task = new Todo(parts[2]);
+            } else if (parts[0].equals("D") && parts.length == 4) {
+                task = new Deadline(parts[2], LocalDate.parse(parts[3]));
+            } else if (parts[0].equals("E") && parts.length == 5) {
+                task = new Event(parts[2], parts[3], parts[4]);
+            } else {
+                System.err.println("Ignoring malformed saved task: " + line);
+                return null;
+            }
 
-        if (parts[1].equals("1")) {
-            task.markAsDone();
-        } else if (!parts[1].equals("0")) {
+            if (parts[1].equals("1")) {
+                task.markAsDone();
+            } else if (!parts[1].equals("0")) {
+                System.err.println("Ignoring malformed saved task: " + line);
+                return null;
+            }
+            return task;
+        } catch (DateTimeParseException exception) {
             System.err.println("Ignoring malformed saved task: " + line);
             return null;
         }
-        return task;
     }
 
     /**
@@ -296,7 +308,7 @@ public class Janet {
             return String.join("\t", "T", completionStatus, task.description);
         }
         if (task instanceof Deadline deadline) {
-            return String.join("\t", "D", completionStatus, task.description, deadline.getDeadline());
+            return String.join("\t", "D", completionStatus, task.description, deadline.getDeadline().toString());
         }
         if (task instanceof Event event) {
             return String.join("\t", "E", completionStatus, task.description, event.getStart(), event.getEnd());
