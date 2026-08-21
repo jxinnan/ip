@@ -1,4 +1,9 @@
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -7,6 +12,9 @@ import java.util.Scanner;
 public class Janet {
     /** Maximum number of tasks Janet can store during one run. */
     private static final int MAX_TASKS = Integer.MAX_VALUE;
+
+    /** Relative path used to persist Janet's tasks between runs. */
+    private static final Path DATA_FILE_PATH = Path.of("data", "janet.txt");
 
     public static void main(String[] args) {
         String banner = "____________________________________________________________\n"
@@ -22,7 +30,7 @@ public class Janet {
                 + "____________________________________________________________\n";
         System.out.print(banner);
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        ArrayList<Task> tasks = loadTasks();
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String command = scanner.nextLine();
@@ -112,6 +120,7 @@ public class Janet {
         }
 
         tasks.add(task);
+        saveTasks(tasks);
         System.out.println(" Got it. I've added this task:");
         System.out.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
         System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
@@ -130,6 +139,7 @@ public class Janet {
         }
 
         task.markAsDone();
+        saveTasks(tasks);
         System.out.println(" Nice! I've marked this task as done:");
         System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
                 + task.getDescription());
@@ -148,6 +158,7 @@ public class Janet {
         }
 
         task.markAsUndone();
+        saveTasks(tasks);
         System.out.println(" Okay, I've marked this task as not done yet:");
         System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
                 + task.getDescription());
@@ -165,6 +176,7 @@ public class Janet {
         System.out.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
                 + task.getDescription());
         tasks.remove(task);
+        saveTasks(tasks);
         System.out.println(" Now you have " + tasks.size() + " tasks in the list.");
     }
 
@@ -193,5 +205,102 @@ public class Janet {
         }
 
         return tasks.get(taskNumber - 1);
+    }
+
+    /**
+     * Loads tasks from the data file, returning an empty list when it has not been created yet.
+     *
+     * @return the tasks stored in the data file
+     */
+    private static ArrayList<Task> loadTasks() {
+        ArrayList<Task> tasks = new ArrayList<>();
+        if (Files.notExists(DATA_FILE_PATH)) {
+            return tasks;
+        }
+
+        try {
+            for (String line : Files.readAllLines(DATA_FILE_PATH, StandardCharsets.UTF_8)) {
+                Task task = parseStoredTask(line);
+                if (task != null) {
+                    tasks.add(task);
+                }
+            }
+        } catch (IOException exception) {
+            System.err.println("Unable to load saved tasks: " + exception.getMessage());
+        }
+        return tasks;
+    }
+
+    /**
+     * Creates a task from one tab-separated line in Janet's data file.
+     *
+     * @param line a line read from the data file
+     * @return the reconstructed task, or {@code null} for a malformed line
+     */
+    private static Task parseStoredTask(String line) {
+        String[] parts = line.split("\\t", -1);
+        if (parts.length < 3) {
+            System.err.println("Ignoring malformed saved task: " + line);
+            return null;
+        }
+
+        Task task;
+        if (parts[0].equals("T") && parts.length == 3) {
+            task = new Todo(parts[2]);
+        } else if (parts[0].equals("D") && parts.length == 4) {
+            task = new Deadline(parts[2], parts[3]);
+        } else if (parts[0].equals("E") && parts.length == 5) {
+            task = new Event(parts[2], parts[3], parts[4]);
+        } else {
+            System.err.println("Ignoring malformed saved task: " + line);
+            return null;
+        }
+
+        if (parts[1].equals("1")) {
+            task.markAsDone();
+        } else if (!parts[1].equals("0")) {
+            System.err.println("Ignoring malformed saved task: " + line);
+            return null;
+        }
+        return task;
+    }
+
+    /**
+     * Writes every task to the data file, creating its parent directory when needed.
+     *
+     * @param tasks the tasks to persist
+     */
+    private static void saveTasks(List<Task> tasks) {
+        List<String> lines = new ArrayList<>();
+        for (Task task : tasks) {
+            lines.add(formatStoredTask(task));
+        }
+
+        try {
+            Files.createDirectories(DATA_FILE_PATH.getParent());
+            Files.write(DATA_FILE_PATH, lines, StandardCharsets.UTF_8);
+        } catch (IOException exception) {
+            System.err.println("Unable to save tasks: " + exception.getMessage());
+        }
+    }
+
+    /**
+     * Converts one task to a tab-separated line for Janet's data file.
+     *
+     * @param task the task to persist
+     * @return one data-file line representing the task
+     */
+    private static String formatStoredTask(Task task) {
+        String completionStatus = task.isDone ? "1" : "0";
+        if (task instanceof Todo) {
+            return String.join("\t", "T", completionStatus, task.description);
+        }
+        if (task instanceof Deadline deadline) {
+            return String.join("\t", "D", completionStatus, task.description, deadline.getDeadline());
+        }
+        if (task instanceof Event event) {
+            return String.join("\t", "E", completionStatus, task.description, event.getStart(), event.getEnd());
+        }
+        throw new IllegalArgumentException("Cannot save an unknown task type.");
     }
 }

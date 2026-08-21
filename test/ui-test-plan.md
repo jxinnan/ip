@@ -1,6 +1,94 @@
 # Janet UI test plan
 
 The runner executes each test case in order. Expected output is compared exactly.
+Each case runs in a fresh temporary folder. Cases may provide an initial data file or assert the saved file.
+
+## Test case: Save task changes automatically
+
+Aim: Verify that adding and marking a task writes its current state to Janet's relative data file.
+
+### Inputs
+
+```text
+todo read book
+mark 1
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [T][X] read book
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+### Expected saved data
+
+```text
+T	1	read book
+```
+
+## Test case: Load saved tasks at startup
+
+Aim: Verify that Janet recreates each stored task and its completion status when it starts.
+
+### Inputs
+
+```text
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][X] read book
+ 2.[D][ ] return book (by: Sunday)
+ 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+### Initial saved data
+
+```text
+T	1	read book
+D	0	return book	Sunday
+E	1	project meeting	Mon 2pm	4pm
+```
 
 ## Test case: Add, list, mark, and unmark a task
 
