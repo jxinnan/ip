@@ -243,3 +243,186 @@ ____________________________________________________________
  Okay! Have a wonderful day. Bye!
 ____________________________________________________________
 ```
+
+## Test case: Reject empty and unknown commands without changing tasks
+
+Aim: Verify that an empty to-do and an unknown command show helpful errors, while an existing task remains intact.
+
+### Inputs
+
+```text
+list
+todo
+todo read book
+what
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+ OOPS!!! A todo needs a description.
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] read book
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ OOPS!!! I don't recognize that command.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] read book
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+## Test case: Reject malformed deadline and event commands without changing tasks
+
+Aim: Verify that malformed structured commands are rejected and do not add tasks; valid deadlines and events continue to work.
+
+### Inputs
+
+```text
+deadline
+deadline submit report /by
+deadline submit report /by Friday
+event meeting /from Mon 2pm
+event meeting /from Mon 2pm /to
+event meeting /from /to 4pm
+event meeting /from Mon 2pm /to 4pm
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Sorry, please use: deadline <task> /by <date or time>.
+____________________________________________________________
+ Sorry, please use: deadline <task> /by <date or time>.
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] submit report (by: Friday)
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Sorry, please use: event <task> /from <start> /to <end>.
+____________________________________________________________
+ Sorry, please use: event <task> /from <start> /to <end>.
+____________________________________________________________
+ OOPS!!! An event needs a description, start, and end.
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] meeting (from: Mon 2pm to: 4pm)
+ Now you have 2 tasks in the list.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[D][ ] submit report (by: Friday)
+ 2.[E][ ] meeting (from: Mon 2pm to: 4pm)
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+## Test case: Reject invalid task numbers without changing task state
+
+Aim: Verify that mark, unmark, and delete reject missing, non-numeric, zero, and out-of-range task numbers, while valid operations still change only the selected task.
+
+### Inputs
+
+```text
+todo alpha
+mark
+mark 0
+mark 2
+mark 1
+unmark
+unmark zero
+unmark 2
+unmark 1
+delete
+delete zero
+delete 2
+delete 1
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] alpha
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Sorry, please provide a valid task number.
+____________________________________________________________
+ Sorry, that task number does not exist.
+____________________________________________________________
+ Sorry, that task number does not exist.
+____________________________________________________________
+ Nice! I've marked this task as done:
+   [T][X] alpha
+____________________________________________________________
+ Sorry, please provide a valid task number.
+____________________________________________________________
+ Sorry, please provide a valid task number.
+____________________________________________________________
+ Sorry, that task number does not exist.
+____________________________________________________________
+ Okay, I've marked this task as not done yet:
+   [T][ ] alpha
+____________________________________________________________
+ Sorry, please provide a valid task number.
+____________________________________________________________
+ Sorry, please provide a valid task number.
+____________________________________________________________
+ Sorry, that task number does not exist.
+____________________________________________________________
+ Noted. I've removed this task:
+   [T][ ] alpha
+ Now you have 0 tasks in the list.
+____________________________________________________________
+ Here are the tasks in your list:
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
