@@ -43,6 +43,8 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 Before editing or reviewing Java code, invoke the project-specific `java-coding-standards` skill and run its `scripts/check_java_format.py` checker. Run the checker again after Java edits, and fix any reported violations. Follow its course-standard-first guidance, using Google Java Style only where the course standard is silent. After Java edits, format the changed code with Visual Studio Code's Format Document when available and inspect the diff; do not configure its Google Style formatter profile because it conflicts with this project's four-space indentation and 120-character limit.
 
+Keep JUnit coverage focused on the top ~50% highest-value methods: prioritize core, complex, and critical behavior. Update the relevant JUnit tests after each code change to maintain this target.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
