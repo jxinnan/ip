@@ -28,6 +28,10 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## Java coding standards
+
+Before editing or reviewing Java code, invoke the project-specific `java-coding-standards` skill and follow its course-standard-first guidance. Use Google Java Style only where the course standard is silent. After Java edits, format the changed code with Visual Studio Code's Format Document when available and inspect the diff; do not configure its Google Style formatter profile because it conflicts with this project's four-space indentation and 120-character limit.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.

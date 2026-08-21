@@ -34,11 +34,11 @@ def run():
         raise SystemExit("No test cases found in the UI test plan.")
 
     with tempfile.TemporaryDirectory(prefix="janet-ui-") as build_dir:
-        sources = [str(path) for path in (ROOT / "src" / "main" / "java").glob("*.java")]
+        sources = [str(path) for path in (ROOT / "src" / "main" / "java").rglob("*.java")]
         subprocess.run(["javac", "--release", "25", "-d", build_dir, *sources], cwd=ROOT, check=True)
         for index, (name, aim, inputs, expected) in enumerate(cases, 1):
             result = subprocess.run(
-                ["java", "-cp", build_dir, "Janet"], cwd=ROOT,
+                ["java", "-cp", build_dir, "janet.Janet"], cwd=ROOT,
                 input=inputs, text=True, capture_output=True, check=False
             )
             actual = result.stdout.replace("\r\n", "\n")
