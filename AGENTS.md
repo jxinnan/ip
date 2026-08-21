@@ -30,7 +30,7 @@ Ensure that Java 25 is used when running the application or build tasks. On macO
 
 ## Java coding standards
 
-Before editing or reviewing Java code, invoke the project-specific `java-coding-standards` skill and follow its course-standard-first guidance. Use Google Java Style only where the course standard is silent. After Java edits, format the changed code with Visual Studio Code's Format Document when available and inspect the diff; do not configure its Google Style formatter profile because it conflicts with this project's four-space indentation and 120-character limit.
+Before editing or reviewing Java code, invoke the project-specific `java-coding-standards` skill and run its `scripts/check_java_format.py` checker. Run the checker again after Java edits, and fix any reported violations. Follow its course-standard-first guidance, using Google Java Style only where the course standard is silent. After Java edits, format the changed code with Visual Studio Code's Format Document when available and inspect the diff; do not configure its Google Style formatter profile because it conflicts with this project's four-space indentation and 120-character limit.
 
 ## Git
 

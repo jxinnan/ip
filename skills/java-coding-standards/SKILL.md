@@ -12,6 +12,17 @@ Read [the project standard](references/course-java-standard.md) before editing o
 reviewing Java code. Apply the relevant rules rather than mechanically changing
 unrelated code.
 
+Run the deterministic formatting check every time this skill is invoked:
+
+```bash
+python3 skills/java-coding-standards/scripts/check_java_format.py
+```
+
+Run it again after Java edits. It checks only rules that can be verified safely
+without a full Java parser: indentation, tabs, trailing whitespace, hard line
+length, explicit imports, selected spacing and brace rules, modifier order, and
+array-bracket placement. Apply the remaining course rules through review.
+
 ## Working approach
 
 - Keep names, braces, declarations, comments, and imports compliant with the
