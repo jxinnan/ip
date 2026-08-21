@@ -56,7 +56,10 @@ public class Janet {
                 int toIndex = eventCommand.indexOf(" /to ");
                 if (fromIndex > 0 && toIndex > fromIndex) {
                     String description = eventCommand.substring(0, fromIndex).trim();
-                    String start = eventCommand.substring(fromIndex + 7, toIndex).trim();
+                    int startIndex = fromIndex + 7;
+                    String start = toIndex >= startIndex
+                            ? eventCommand.substring(startIndex, toIndex).trim()
+                            : "";
                     String end = eventCommand.substring(toIndex + 5).trim();
                     if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
                         throw new InvalidCommandException("OOPS!!! An event needs a description, start, and end.");
@@ -174,6 +177,10 @@ public class Janet {
      * @return the selected task, or {@code null} if the command is invalid
      */
     private static Task getTask(String command, int numberStart, ArrayList<Task> tasks) {
+        if (command.length() <= numberStart) {
+            throw new InvalidTaskException("Sorry, please provide a valid task number.");
+        }
+
         int taskNumber;
         try {
             taskNumber = Integer.parseInt(command.substring(numberStart).trim());
