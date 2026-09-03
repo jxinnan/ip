@@ -1,5 +1,10 @@
 package janet;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
+import java.util.stream.Collectors;
+
 import janet.exception.JanetException;
 import janet.logic.Command;
 import janet.logic.Parser;
@@ -27,8 +32,17 @@ public class Janet {
      * Creates Janet and loads tasks saved during a previous run.
      */
     public Janet() {
+        this(DATA_FILE_PATH);
+    }
+
+    /**
+     * Creates Janet with a specific task data file.
+     *
+     * @param dataFilePath path of the file used to store tasks
+     */
+    Janet(String dataFilePath) {
         ui = new Ui();
-        storage = new Storage(DATA_FILE_PATH);
+        storage = new Storage(dataFilePath);
         tasks = new TaskList(storage.load());
     }
 
@@ -49,6 +63,31 @@ public class Janet {
                 ui.showLine();
             }
         }
+    }
+
+    /**
+     * Processes one command and returns its response for the graphical interface.
+     *
+     * @param userInput command entered by the user
+     * @return Janet's response without console divider lines
+     */
+    public String getResponse(String userInput) {
+        ByteArrayOutputStream responseBytes = new ByteArrayOutputStream();
+        try (PrintStream responseOutput = new PrintStream(responseBytes, true, StandardCharsets.UTF_8)) {
+            Ui responseUi = new Ui(responseOutput);
+            try {
+                Command command = Parser.parse(userInput);
+                command.execute(tasks, responseUi, storage);
+            } catch (JanetException exception) {
+                responseUi.showError(exception.getMessage());
+            }
+        }
+
+        return responseBytes.toString(StandardCharsets.UTF_8).lines()
+                .filter(line -> !line.matches("_+"))
+                .map(String::stripLeading)
+                .collect(Collectors.joining(System.lineSeparator()))
+                .stripTrailing();
     }
 
     /**
