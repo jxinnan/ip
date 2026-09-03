@@ -39,17 +39,18 @@ public class Ui {
      * Shows Janet's welcome banner.
      */
     public void showWelcome() {
-        output.println(DIVIDER);
-        output.println("     _                  _");
-        output.println("    | |                | |");
-        output.println("    | | __ _ _ __   ___| |_");
-        output.println(" _  | |/ _` | '_ \\ / _ \\ __|");
-        output.println("| |_| | (_| | | | |  __/ |_");
-        output.println(" \\___/ \\__,_|_| |_|\\___|\\__|");
-        output.println(DIVIDER);
-        output.println("Hi! I'm Janet! I'm here to help with absolutely anything.");
-        output.println("What can I do for you?");
-        output.println(DIVIDER);
+        showLines(
+                DIVIDER,
+                "     _                  _",
+                "    | |                | |",
+                "    | | __ _ _ __   ___| |_",
+                " _  | |/ _` | '_ \\ / _ \\ __|",
+                "| |_| | (_| | | | |  __/ |_",
+                " \\___/ \\__,_|_| |_|\\___|\\__|",
+                DIVIDER,
+                "Hi! I'm Janet! I'm here to help with absolutely anything.",
+                "What can I do for you?",
+                DIVIDER);
     }
 
     /**
@@ -110,9 +111,10 @@ public class Ui {
      * @param taskCount total number of tasks
      */
     public void showTaskAdded(Task task, int taskCount) {
-        output.println(" Got it. I've added this task:");
-        output.println("   " + task.getTypeIcon() + "[ ] " + task.getDescription());
-        output.println(" Now you have " + taskCount + " tasks in the list.");
+        showLines(
+                " Got it. I've added this task:",
+                "   " + task.getTypeIcon() + "[ ] " + task.getDescription(),
+                " Now you have " + taskCount + " tasks in the list.");
     }
 
     /**
@@ -160,8 +162,7 @@ public class Ui {
      * Shows Janet's goodbye message.
      */
     public void showGoodbye() {
-        output.println(DIVIDER);
-        output.println(" Okay! Have a wonderful day. Bye!");
+        showLines(DIVIDER, " Okay! Have a wonderful day. Bye!");
     }
 
     /**
@@ -179,5 +180,16 @@ public class Ui {
     private void showTask(Task task) {
         output.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
                 + task.getDescription());
+    }
+
+    /**
+     * Shows any number of lines in their supplied order.
+     *
+     * @param lines lines to display
+     */
+    private void showLines(String... lines) {
+        for (String line : lines) {
+            output.println(line);
+        }
     }
 }
