@@ -1,0 +1,105 @@
+.root {
+    -fx-accent: #7c5cff;
+    -fx-background-color: #f5f3ff;
+    -fx-font-family: "Inter", "Segoe UI", sans-serif;
+}
+
+.header {
+    -fx-background-color: linear-gradient(to bottom right, #241d52, #5642a6);
+}
+
+.title {
+    -fx-font-size: 28px;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.subtitle {
+    -fx-font-size: 13px;
+    -fx-text-fill: #ddd7ff;
+}
+
+.conversation,
+.conversation > .viewport {
+    -fx-background-color: transparent;
+}
+
+.dialog-row {
+    -fx-padding: 3px 0;
+}
+
+.message-bubble {
+    -fx-font-size: 14px;
+    -fx-padding: 11px 14px;
+}
+
+.user-bubble {
+    -fx-background-color: #664ee8;
+    -fx-background-radius: 16px 16px 4px 16px;
+    -fx-text-fill: white;
+}
+
+.janet-bubble {
+    -fx-background-color: white;
+    -fx-background-radius: 16px 16px 16px 4px;
+    -fx-effect: dropshadow(gaussian, rgba(36, 29, 82, 0.12), 10, 0.15, 0, 3);
+    -fx-text-fill: #282442;
+}
+
+.speaker-badge {
+    -fx-alignment: center;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-min-height: 36px;
+    -fx-min-width: 36px;
+    -fx-pref-height: 36px;
+    -fx-pref-width: 36px;
+}
+
+.user-badge {
+    -fx-background-color: #dcd5ff;
+    -fx-background-radius: 18px;
+    -fx-text-fill: #4835b5;
+    -fx-translate-x: 8px;
+}
+
+.janet-badge {
+    -fx-background-color: #302864;
+    -fx-background-radius: 18px;
+    -fx-text-fill: white;
+    -fx-translate-x: -8px;
+}
+
+.composer {
+    -fx-background-color: white;
+    -fx-border-color: #e7e2ff transparent transparent transparent;
+}
+
+.text-field {
+    -fx-background-color: #f0edff;
+    -fx-background-radius: 10px;
+    -fx-border-color: transparent;
+    -fx-font-size: 14px;
+    -fx-padding: 10px 12px;
+}
+
+.text-field:focused {
+    -fx-border-color: #7c5cff;
+    -fx-border-radius: 10px;
+}
+
+.button {
+    -fx-background-color: #664ee8;
+    -fx-background-radius: 10px;
+    -fx-font-weight: bold;
+    -fx-padding: 10px 18px;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #5642c8;
+}
+
+.button:pressed {
+    -fx-background-color: #42329d;
+}

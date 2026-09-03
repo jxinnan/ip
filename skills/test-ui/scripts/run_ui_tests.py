@@ -9,6 +9,7 @@ import tempfile
 
 ROOT = Path(__file__).resolve().parents[3]
 PLAN = ROOT / "test" / "ui-test-plan.md"
+GUI_ONLY_SOURCES = {"Launcher.java", "Main.java", "DialogBox.java", "MainWindow.java"}
 
 
 def read_cases(text):
@@ -43,7 +44,11 @@ def run():
         raise SystemExit("No test cases found in the UI test plan.")
 
     with tempfile.TemporaryDirectory(prefix="janet-ui-") as build_dir:
-        sources = [str(path) for path in (ROOT / "src" / "main" / "java").rglob("*.java")]
+        sources = [
+            str(path)
+            for path in (ROOT / "src" / "main" / "java").rglob("*.java")
+            if path.name not in GUI_ONLY_SOURCES
+        ]
         subprocess.run(["javac", "--release", "25", "-d", build_dir, *sources], cwd=ROOT, check=True)
         for index, (name, aim, inputs, expected, initial_data, expected_data) in enumerate(cases, 1):
             with tempfile.TemporaryDirectory(prefix="janet-ui-case-") as run_dir:

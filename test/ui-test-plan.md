@@ -3,6 +3,37 @@
 The runner executes each test case in order. Expected output is compared exactly.
 Each case runs in a fresh temporary folder. Cases may provide an initial data file or assert the saved file.
 
+The JavaFX cases below are manual because the command-line runner has no graphical display. Run Janet with
+`./gradlew run`, perform each case in order, and close the window before starting the next case.
+
+## Manual GUI test: Start and add a task
+
+Enter `todo read book`, followed by `list`. Verify that the window opens at a usable size, shows the welcome bubble,
+accepts input by Enter and the Send button, displays distinct user and Janet bubbles, and lists the new task.
+
+## Manual GUI test: Reject malformed input without changing state
+
+After adding `read book`, enter `todo`, followed by `list`. Verify that Janet shows the missing-description error and
+that the list still contains exactly the original task.
+
+## Manual GUI test: Update an existing task
+
+After adding one task, enter `mark 1`, followed by `list`. Verify that Janet confirms the change and displays `[X]`.
+
+## Manual GUI test: Reject an invalid task number
+
+After marking task 1, enter `delete 0`, followed by `list`. Verify that Janet reports the invalid number and the marked
+task remains in the list.
+
+## Manual GUI test: Display long conversations and messages
+
+Resize the window to its minimum size, enter a description longer than the visible input field, and then add enough
+tasks to fill the conversation. Verify that bubbles wrap without clipping and the view scrolls to the latest reply.
+
+## Manual GUI test: Exit using the bye command
+
+Enter `bye`. Verify that Janet displays its goodbye response, disables further input, and closes after a short delay.
+
 ## Test case: Find tasks by keyword
 
 Aim: Verify that Janet displays tasks whose descriptions contain a keyword and rejects an empty keyword without changing the list.

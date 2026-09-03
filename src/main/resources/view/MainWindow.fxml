@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="620.0" prefWidth="540.0"
+            stylesheets="@../css/main.css"
+            xmlns="http://javafx.com/javafx/17"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="janet.ui.MainWindow">
+    <top>
+        <VBox styleClass="header">
+            <padding>
+                <Insets bottom="16.0" left="22.0" right="22.0" top="18.0" />
+            </padding>
+            <children>
+                <Label styleClass="title" text="Janet" />
+                <Label styleClass="subtitle" text="A quiet place to keep every task on track" />
+            </children>
+        </VBox>
+    </top>
+    <center>
+        <ScrollPane fx:id="scrollPane" fitToWidth="true" hbarPolicy="NEVER" styleClass="conversation">
+            <content>
+                <VBox fx:id="dialogContainer" fillWidth="true" spacing="8.0">
+                    <padding>
+                        <Insets bottom="18.0" left="16.0" right="16.0" top="18.0" />
+                    </padding>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+    <bottom>
+        <HBox spacing="10.0" styleClass="composer">
+            <padding>
+                <Insets bottom="14.0" left="16.0" right="16.0" top="14.0" />
+            </padding>
+            <children>
+                <TextField fx:id="userInput" HBox.hgrow="ALWAYS"
+                           onAction="#handleUserInput" promptText="Type a command..." />
+                <Button fx:id="sendButton" defaultButton="true"
+                        onAction="#handleUserInput" text="Send" />
+            </children>
+        </HBox>
+    </bottom>
+</BorderPane>
