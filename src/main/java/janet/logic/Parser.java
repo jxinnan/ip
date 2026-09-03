@@ -14,6 +14,12 @@ import janet.task.Todo;
  */
 public class Parser {
     /**
+     * Prevents construction of this utility class.
+     */
+    private Parser() {
+    }
+
+    /**
      * Parses a complete user command.
      *
      * @param userInput command text entered by the user
@@ -22,23 +28,17 @@ public class Parser {
     public static Command parse(String userInput) {
         CommandName commandName = CommandName.from(userInput);
         return switch (commandName) {
-        case LIST -> new ListCommand();
-        case TODO -> new AddCommand(parseTodo(userInput));
-        case EVENT -> new AddCommand(parseEvent(userInput));
-        case DEADLINE -> new AddCommand(parseDeadline(userInput));
-        case DELETE -> new DeleteCommand(parseTaskNumber(userInput, 7));
-        case MARK -> new MarkCommand(parseTaskNumber(userInput, 5));
-        case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput, 7));
-        case FIND -> new FindCommand(parseKeyword(userInput));
-        case BYE -> new ExitCommand();
-        case UNKNOWN -> throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
+            case LIST -> new ListCommand();
+            case TODO -> new AddCommand(parseTodo(userInput));
+            case EVENT -> new AddCommand(parseEvent(userInput));
+            case DEADLINE -> new AddCommand(parseDeadline(userInput));
+            case DELETE -> new DeleteCommand(parseTaskNumber(userInput, 7));
+            case MARK -> new MarkCommand(parseTaskNumber(userInput, 5));
+            case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput, 7));
+            case FIND -> new FindCommand(parseKeyword(userInput));
+            case BYE -> new ExitCommand();
+            case UNKNOWN -> throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
         };
-    }
-
-    /**
-     * Prevents construction of this utility class.
-     */
-    private Parser() {
     }
 
     /**
