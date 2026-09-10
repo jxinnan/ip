@@ -26,6 +26,8 @@ public class Parser {
      * @return a command ready for execution
      */
     public static Command parse(String userInput) {
+        assert userInput != null : "User input must come from an available UI command";
+
         CommandName commandName = CommandName.from(userInput);
         return switch (commandName) {
             case LIST -> new ListCommand();
