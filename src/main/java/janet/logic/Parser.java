@@ -32,9 +32,9 @@ public class Parser {
             case TODO -> new AddCommand(parseTodo(userInput));
             case EVENT -> new AddCommand(parseEvent(userInput));
             case DEADLINE -> new AddCommand(parseDeadline(userInput));
-            case DELETE -> new DeleteCommand(parseTaskNumber(userInput, 7));
-            case MARK -> new MarkCommand(parseTaskNumber(userInput, 5));
-            case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput, 7));
+            case DELETE -> new DeleteCommand(parseTaskNumber(userInput));
+            case MARK -> new MarkCommand(parseTaskNumber(userInput));
+            case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput));
             case FIND -> new FindCommand(parseKeyword(userInput));
             case BYE -> new ExitCommand();
             case UNKNOWN -> throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
@@ -48,7 +48,7 @@ public class Parser {
      * @return the to-do task described by the command
      */
     private static Todo parseTodo(String userInput) {
-        String description = userInput.length() > 5 ? userInput.substring(5).trim() : "";
+        String description = parseArgument(userInput);
         if (description.isEmpty()) {
             throw new InvalidCommandException("OOPS!!! A todo needs a description.");
         }
@@ -62,7 +62,7 @@ public class Parser {
      * @return the event task described by the command
      */
     private static Event parseEvent(String userInput) {
-        String eventCommand = userInput.length() > 6 ? userInput.substring(6).trim() : "";
+        String eventCommand = parseArgument(userInput);
         int fromIndex = eventCommand.indexOf(" /from ");
         int toIndex = eventCommand.indexOf(" /to ");
         if (fromIndex <= 0 || toIndex <= fromIndex) {
@@ -87,7 +87,7 @@ public class Parser {
      * @return the deadline task described by the command
      */
     private static Deadline parseDeadline(String userInput) {
-        String deadlineCommand = userInput.length() > 9 ? userInput.substring(9).trim() : "";
+        String deadlineCommand = parseArgument(userInput);
         int byIndex = deadlineCommand.indexOf(" /by ");
         if (byIndex <= 0) {
             throw new InvalidCommandException("Sorry, please use: deadline <task> /by <date or time>.");
@@ -109,16 +109,16 @@ public class Parser {
      * Parses the one-based task number at the end of a task command.
      *
      * @param userInput complete command text
-     * @param numberStart index where the task number begins
      * @return the parsed task number
      */
-    private static int parseTaskNumber(String userInput, int numberStart) {
-        if (userInput.length() <= numberStart) {
+    private static int parseTaskNumber(String userInput) {
+        String taskNumber = parseArgument(userInput);
+        if (taskNumber.isEmpty()) {
             throw new InvalidTaskException("Sorry, please provide a valid task number.");
         }
 
         try {
-            return Integer.parseInt(userInput.substring(numberStart).trim());
+            return Integer.parseInt(taskNumber);
         } catch (NumberFormatException exception) {
             throw new InvalidTaskException("Sorry, please provide a valid task number.");
         }
@@ -131,10 +131,21 @@ public class Parser {
      * @return the non-empty keyword to search for
      */
     private static String parseKeyword(String userInput) {
-        String keyword = userInput.length() > 5 ? userInput.substring(5).trim() : "";
+        String keyword = parseArgument(userInput);
         if (keyword.isEmpty()) {
             throw new InvalidCommandException("OOPS!!! A find command needs a keyword.");
         }
         return keyword;
+    }
+
+    /**
+     * Returns the trimmed text after a command name.
+     *
+     * @param userInput complete command text
+     * @return the command argument, or an empty string when none was supplied
+     */
+    private static String parseArgument(String userInput) {
+        int firstSpace = userInput.indexOf(' ');
+        return firstSpace < 0 ? "" : userInput.substring(firstSpace + 1).trim();
     }
 }
