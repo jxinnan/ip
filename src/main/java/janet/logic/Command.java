@@ -1,5 +1,7 @@
 package janet.logic;
 
+import java.util.List;
+
 import janet.storage.Storage;
 import janet.task.Task;
 import janet.task.TaskList;
@@ -57,24 +59,28 @@ class ListCommand extends Command {
     }
 }
 
-/** Removes a task and persists the changed list. */
+/** Removes one or more tasks and persists the changed list. */
 class DeleteCommand extends Command {
-    private final int taskNumber;
+    private final List<Integer> taskNumbers;
 
     /**
-     * Creates a command that deletes one task.
+     * Creates a command that deletes one or more tasks.
      *
-     * @param taskNumber one-based number of the task to delete
+     * @param taskNumbers one-based numbers of the tasks to delete
      */
-    DeleteCommand(int taskNumber) {
-        this.taskNumber = taskNumber;
+    DeleteCommand(List<Integer> taskNumbers) {
+        this.taskNumbers = List.copyOf(taskNumbers);
     }
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
-        Task deletedTask = tasks.delete(taskNumber);
+        List<Task> deletedTasks = tasks.delete(taskNumbers);
         storage.save(tasks);
-        ui.showTaskDeleted(deletedTask, tasks.size());
+        if (deletedTasks.size() == 1) {
+            ui.showTaskDeleted(deletedTasks.get(0), tasks.size());
+        } else {
+            ui.showTasksDeleted(deletedTasks, tasks.size());
+        }
     }
 }
 

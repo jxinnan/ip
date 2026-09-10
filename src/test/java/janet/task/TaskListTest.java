@@ -24,6 +24,39 @@ class TaskListTest {
     }
 
     @Test
+    void delete_multipleExistingTasks_removesAtomicallyAndReturnsRequestedOrder() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("first"));
+        tasks.add(new Todo("second"));
+        tasks.add(new Todo("third"));
+        tasks.add(new Todo("fourth"));
+
+        List<Task> deletedTasks = tasks.delete(List.of(4, 2));
+
+        assertEquals(List.of("fourth", "second"), deletedTasks.stream()
+                .map(Task::getDescription)
+                .toList());
+        assertEquals(List.of("first", "third"), tasks.getTasks().stream()
+                .map(Task::getDescription)
+                .toList());
+    }
+
+    @Test
+    void delete_duplicateOrInvalidTaskNumbers_throwsExceptionWithoutRemovingTasks() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("first"));
+        tasks.add(new Todo("second"));
+        tasks.add(new Todo("third"));
+
+        assertThrows(InvalidTaskException.class, () -> tasks.delete(List.of()));
+        assertThrows(InvalidTaskException.class, () -> tasks.delete(List.of(1, 1)));
+        assertThrows(InvalidTaskException.class, () -> tasks.delete(List.of(2, 4)));
+        assertEquals(List.of("first", "second", "third"), tasks.getTasks().stream()
+                .map(Task::getDescription)
+                .toList());
+    }
+
+    @Test
     void get_invalidTaskNumber_throwsException() {
         TaskList tasks = new TaskList();
         tasks.add(new Todo("only task"));

@@ -96,6 +96,98 @@ ____________________________________________________________
 ____________________________________________________________
 ```
 
+## Test case: Delete multiple tasks atomically
+
+Aim: Verify that Janet removes several selected tasks in one command, preserves their requested order in the
+confirmation, and rejects duplicate, malformed, or out-of-range selections without changing the task list.
+
+### Inputs
+
+```text
+todo alpha
+todo bravo
+deadline charlie /by 2019-12-02
+event delta /from Mon 2pm /to 4pm
+todo echo
+delete 2 2
+delete 2 word
+delete 2 6
+list
+delete 4 2
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] alpha
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] bravo
+ Now you have 2 tasks in the list.
+____________________________________________________________
+ Got it. I've added this task:
+   [D][ ] charlie (by: Dec 02 2019)
+ Now you have 3 tasks in the list.
+____________________________________________________________
+ Got it. I've added this task:
+   [E][ ] delta (from: Mon 2pm to: 4pm)
+ Now you have 4 tasks in the list.
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] echo
+ Now you have 5 tasks in the list.
+____________________________________________________________
+ Sorry, please provide each task number only once.
+____________________________________________________________
+ Sorry, please provide valid task numbers separated by spaces.
+____________________________________________________________
+ Sorry, that task number does not exist.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] alpha
+ 2.[T][ ] bravo
+ 3.[D][ ] charlie (by: Dec 02 2019)
+ 4.[E][ ] delta (from: Mon 2pm to: 4pm)
+ 5.[T][ ] echo
+____________________________________________________________
+ Noted. I've removed these tasks:
+   [E][ ] delta (from: Mon 2pm to: 4pm)
+   [T][ ] bravo
+ Now you have 3 tasks in the list.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] alpha
+ 2.[D][ ] charlie (by: Dec 02 2019)
+ 3.[T][ ] echo
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+### Expected saved data
+
+```text
+T	0	alpha
+D	0	charlie	2019-12-02
+T	0	echo
+```
+
 ## Test case: Save task changes automatically
 
 Aim: Verify that adding and marking a task writes its current state to Janet's relative data file.
