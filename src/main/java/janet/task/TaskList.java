@@ -75,13 +75,9 @@ public class TaskList {
      * @return matching tasks in their original order
      */
     public List<Task> find(String keyword) {
-        List<Task> matchingTasks = new ArrayList<>();
-        for (Task task : tasks) {
-            if (task.getRawDescription().contains(keyword)) {
-                matchingTasks.add(task);
-            }
-        }
-        return matchingTasks;
+        return tasks.stream()
+                .filter(task -> task.getRawDescription().contains(keyword))
+                .toList();
     }
 
     /**
