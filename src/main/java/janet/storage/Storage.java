@@ -123,6 +123,8 @@ public class Storage {
      * @return a data-file line representing the task
      */
     private String formatStoredTask(Task task) {
+        assert task != null : "Janet's task list must contain only valid tasks";
+
         String completionStatus = task.isDone() ? "1" : "0";
         if (task instanceof Todo) {
             return String.join("\t", "T", completionStatus, task.getRawDescription());

@@ -38,6 +38,8 @@ public class TaskList {
      * @param task the task to add
      */
     public void add(Task task) {
+        assert task != null : "Only tasks created or loaded by Janet may be added";
+
         if (tasks.size() >= MAX_TASKS) {
             throw new TaskLimitException("Sorry, I can only store " + MAX_TASKS + " tasks.");
         }
