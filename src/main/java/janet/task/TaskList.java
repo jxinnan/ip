@@ -1,6 +1,8 @@
 package janet.task;
 
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashSet;
 import java.util.List;
 
 import janet.exception.InvalidTaskException;
@@ -66,8 +68,35 @@ public class TaskList {
      * @return the removed task
      */
     public Task delete(int taskNumber) {
-        get(taskNumber);
-        return tasks.remove(taskNumber - 1);
+        return delete(List.of(taskNumber)).get(0);
+    }
+
+    /**
+     * Removes and returns tasks by their one-based task numbers.
+     *
+     * <p>All task numbers are validated before any task is removed. Returned tasks follow the order of the
+     * supplied task numbers.</p>
+     *
+     * @param taskNumbers one-based task numbers
+     * @return the removed tasks in the requested order
+     */
+    public List<Task> delete(List<Integer> taskNumbers) {
+        if (taskNumbers.isEmpty()) {
+            throw new InvalidTaskException("Sorry, please provide a valid task number.");
+        }
+        if (new HashSet<>(taskNumbers).size() != taskNumbers.size()) {
+            throw new InvalidTaskException("Sorry, please provide each task number only once.");
+        }
+
+        List<Task> deletedTasks = taskNumbers.stream()
+                .map(this::get)
+                .toList();
+        List<Integer> descendingTaskNumbers = new ArrayList<>(taskNumbers);
+        descendingTaskNumbers.sort(Comparator.reverseOrder());
+        for (int taskNumber : descendingTaskNumbers) {
+            tasks.remove(taskNumber - 1);
+        }
+        return deletedTasks;
     }
 
     /**

@@ -2,6 +2,8 @@ package janet.logic;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+import java.util.Arrays;
+import java.util.List;
 
 import janet.exception.InvalidCommandException;
 import janet.exception.InvalidTaskException;
@@ -34,7 +36,7 @@ public class Parser {
             case TODO -> new AddCommand(parseTodo(userInput));
             case EVENT -> new AddCommand(parseEvent(userInput));
             case DEADLINE -> new AddCommand(parseDeadline(userInput));
-            case DELETE -> new DeleteCommand(parseTaskNumber(userInput));
+            case DELETE -> new DeleteCommand(parseTaskNumbers(userInput));
             case MARK -> new MarkCommand(parseTaskNumber(userInput));
             case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput));
             case FIND -> new FindCommand(parseKeyword(userInput));
@@ -123,6 +125,31 @@ public class Parser {
             return Integer.parseInt(taskNumber);
         } catch (NumberFormatException exception) {
             throw new InvalidTaskException("Sorry, please provide a valid task number.");
+        }
+    }
+
+    /**
+     * Parses the one-based task numbers supplied to a mass operation.
+     *
+     * @param userInput complete command text
+     * @return task numbers in the order entered by the user
+     */
+    private static List<Integer> parseTaskNumbers(String userInput) {
+        String taskNumbers = parseArgument(userInput);
+        if (taskNumbers.isEmpty()) {
+            throw new InvalidTaskException("Sorry, please provide a valid task number.");
+        }
+
+        String[] numberTexts = taskNumbers.split("\\s+");
+        try {
+            return Arrays.stream(numberTexts)
+                    .map(Integer::parseInt)
+                    .toList();
+        } catch (NumberFormatException exception) {
+            if (numberTexts.length == 1) {
+                throw new InvalidTaskException("Sorry, please provide a valid task number.");
+            }
+            throw new InvalidTaskException("Sorry, please provide valid task numbers separated by spaces.");
         }
     }
 

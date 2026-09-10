@@ -150,6 +150,20 @@ public class Ui {
     }
 
     /**
+     * Shows confirmation that multiple tasks have been removed.
+     *
+     * @param tasks the removed tasks in the user's requested order
+     * @param taskCount total number of tasks remaining
+     */
+    public void showTasksDeleted(List<Task> tasks, int taskCount) {
+        output.println(" Noted. I've removed these tasks:");
+        for (Task task : tasks) {
+            showTask(task);
+        }
+        output.println(" Now you have " + taskCount + " tasks in the list.");
+    }
+
+    /**
      * Shows a user-facing error message.
      *
      * @param message the error message
