@@ -1,46 +1,82 @@
-# Janet project template
+# Janet
 
-This is a project template for a greenfield Java project. Janet is a friendly assistant who's here to help with absolutely anything. Given below are instructions on how to use her.
+Janet is a friendly desktop task manager for keeping track of to-dos, deadlines, and events. It uses a simple
+chat-style interface, saves changes automatically, and restores your tasks the next time you start it.
 
-## Setting up in Intellij
+The character is inspired by Janet from *The Good Place*: cheerful, literal, unfailingly helpful, and always quick
+to point out that she is “not a robot.” That personality gives Janet warm, encouraging responses while she helps
+you stay organized.
 
-Prerequisites: JDK 25, update Intellij to the most recent version.
+## What Janet can do
 
-1. Open Intellij (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project first)
-1. Open the project into Intellij as follows:
-   1. Click `Open`.
-   1. Select the project directory, and click `OK`.
-   1. If there are any further prompts, accept the defaults.
-1. Configure the project to use **JDK 25** (not other versions) as explained in [here](https://www.jetbrains.com/help/idea/sdk.html#set-up-jdk).<br>
-   In the same dialog, set the **Project language level** field to the `SDK default` option.
-1. After that, locate the `src/main/java/janet/Janet.java` file, right-click it, and choose `Run Janet.main()` (if the code editor is showing compile errors, try restarting the IDE). If the setup is correct, you should see something like the below as the output:
-   ```
-   ____________________________________________________________
-        _                  _
-       | |                | |
-       | | __ _ _ __   ___| |_
-    _  | |/ _` | '_ \ / _ \ __|
-   | |_| | (_| | | | |  __/ |_
-    \___/ \__,_|_| |_|\___|\__|
-   ____________________________________________________________
-   Hi! I'm Janet! I'm here to help with absolutely anything.
-   What can I do for you?
-   ____________________________________________________________
-   ```
+- Add to-dos, dated deadlines, and events with flexible start and end descriptions.
+- List, find, complete, reopen, and delete tasks.
+- Delete several tasks safely in one command.
+- Keep task data between sessions in a local `data/janet.txt` file.
+- Protect an existing data file if Janet detects unreadable or malformed saved content.
 
-**Warning:** Keep the `src\main\java` folder as the root folder for Java files (i.e., don't rename those folders or move Java files to another folder outside of this folder path), as this is the default location some tools (e.g., Gradle) expect to find Java files.
+## Getting started
 
-## Building and running with Gradle
+Janet requires Java 25.
 
-From the project root, use the included Gradle wrapper. It downloads the required Gradle version when necessary, then builds and runs Janet with Java 25.
+### Run the packaged application
+
+Place `janet.jar` in a folder where Janet may create a `data` subfolder. Open a terminal in that folder and run:
 
 ```bash
-./gradlew build
+java -jar janet.jar
+```
+
+The Janet window will open. Type a command in the message box and press <kbd>Enter</kbd>, or click **Send**.
+
+Try this short tour:
+
+```text
+todo read book
+deadline return book /by 2026-09-30
+list
+mark 1
+```
+
+Janet saves successful changes automatically. Keep the generated `data` folder with the JAR if you move the
+application to another location.
+
+## Commands at a glance
+
+| Action | Command | Example |
+| --- | --- | --- |
+| Add a to-do | `todo DESCRIPTION` | `todo read book` |
+| Add a deadline | `deadline DESCRIPTION /by YYYY-MM-DD` | `deadline return book /by 2026-09-30` |
+| Add an event | `event DESCRIPTION /from START /to END` | `event meeting /from Monday 2pm /to 4pm` |
+| Show all tasks | `list` | `list` |
+| Complete a task | `mark NUMBER` | `mark 2` |
+| Reopen a task | `unmark NUMBER` | `unmark 2` |
+| Find tasks | `find KEYWORD` | `find book` |
+| Delete one or more tasks | `delete NUMBER [NUMBER ...]` | `delete 2 4 5` |
+| Exit Janet | `bye` | `bye` |
+
+Task numbers come from `list`. Command names are not case-sensitive; search text used by `find` is case-sensitive.
+For command details, examples, and data-recovery guidance, see the [Janet User Guide](docs/README.md).
+
+## Build from source
+
+You need JDK 25. Clone the repository, open a terminal in its root, and use the included Gradle wrapper:
+
+```bash
 ./gradlew run
 ```
 
-On Windows, use `gradlew.bat build` and `gradlew.bat run` instead. Gradle also runs the JUnit tests with `./gradlew test` and creates the distributable JAR with `./gradlew shadowJar`.
+To build the packaged application instead:
+
+```bash
+./gradlew shadowJar
+java -jar build/libs/janet.jar
+```
+
+On Windows, replace `./gradlew` with `gradlew.bat`. Run the automated tests with `./gradlew test`.
 
 ## AI usage
 
-I used OpenAI Codex, an AI coding assistant, while developing this project. Codex was used to generate and refactor Java code, create the project-specific UI testing skill and test plan, and invoke defined test plans. I reviewed the generated changes, selected the final designs and wording, and verified the resulting behavior with the UI tests.
+OpenAI Codex was used while developing this project to generate and refactor Java code, create the project-specific
+UI testing tools and test plan, and run defined test plans. The generated changes, final designs, wording, and test
+results were reviewed by the project author.
