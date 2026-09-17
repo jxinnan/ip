@@ -38,7 +38,8 @@ public class MainWindow {
     @FXML
     public void initialize() {
         dialogContainer.getChildren().add(DialogBox.getJanetDialog(
-                "Hi! I'm Janet. Type a command below, and I'll help manage your tasks."));
+                "Hi there! I'm Janet, your cheerful task assistant. Fun fact: not a robot. "
+                        + "What can I help you organize?"));
         dialogContainer.heightProperty().addListener((observable, oldHeight, newHeight) -> scrollPane.setVvalue(1.0));
     }
 

@@ -48,8 +48,8 @@ public class Ui {
                 "| |_| | (_| | | | |  __/ |_",
                 " \\___/ \\__,_|_| |_|\\___|\\__|",
                 DIVIDER,
-                "Hi! I'm Janet! I'm here to help with absolutely anything.",
-                "What can I do for you?",
+                "Hi there! I'm Janet, your cheerful task assistant.",
+                "Fun fact: not a robot. What can I help you organize?",
                 DIVIDER);
     }
 
@@ -77,7 +77,11 @@ public class Ui {
      * @param tasks tasks to display
      */
     public void showTaskList(List<Task> tasks) {
-        output.println(" Here are the tasks in your list:");
+        if (tasks.isEmpty()) {
+            output.println(" Your task list is empty. Everything is wonderfully under control.");
+            return;
+        }
+        output.println(" Absolutely! Here is everything on your list:");
         showTasks(tasks);
     }
 
@@ -87,7 +91,11 @@ public class Ui {
      * @param tasks matching tasks to display
      */
     public void showMatchingTasks(List<Task> tasks) {
-        output.println(" Here are the matching tasks in your list:");
+        if (tasks.isEmpty()) {
+            output.println(" I checked the whole list. No matching tasks found.");
+            return;
+        }
+        output.println(" I found these matching tasks:");
         showTasks(tasks);
     }
 
@@ -112,9 +120,9 @@ public class Ui {
      */
     public void showTaskAdded(Task task, int taskCount) {
         showLines(
-                " Got it. I've added this task:",
+                " Done and done! I added this task:",
                 "   " + task.getTypeIcon() + "[ ] " + task.getDescription(),
-                " Now you have " + taskCount + " tasks in the list.");
+                " You now have " + formatTaskCount(taskCount) + ".");
     }
 
     /**
@@ -123,7 +131,7 @@ public class Ui {
      * @param task the completed task
      */
     public void showTaskMarked(Task task) {
-        output.println(" Nice! I've marked this task as done:");
+        output.println(" Excellent! This task is now complete:");
         showTask(task);
     }
 
@@ -133,7 +141,7 @@ public class Ui {
      * @param task the incomplete task
      */
     public void showTaskUnmarked(Task task) {
-        output.println(" Okay, I've marked this task as not done yet:");
+        output.println(" No problem! This task is back in progress:");
         showTask(task);
     }
 
@@ -144,9 +152,9 @@ public class Ui {
      * @param taskCount total number of tasks remaining
      */
     public void showTaskDeleted(Task task, int taskCount) {
-        output.println(" Noted. I've removed this task:");
+        output.println(" Done! I removed this task:");
         showTask(task);
-        output.println(" Now you have " + taskCount + " tasks in the list.");
+        output.println(" You now have " + formatTaskCount(taskCount) + ".");
     }
 
     /**
@@ -156,11 +164,11 @@ public class Ui {
      * @param taskCount total number of tasks remaining
      */
     public void showTasksDeleted(List<Task> tasks, int taskCount) {
-        output.println(" Noted. I've removed these tasks:");
+        output.println(" Done! I removed these tasks:");
         for (Task task : tasks) {
             showTask(task);
         }
-        output.println(" Now you have " + taskCount + " tasks in the list.");
+        output.println(" You now have " + formatTaskCount(taskCount) + ".");
     }
 
     /**
@@ -176,7 +184,7 @@ public class Ui {
      * Shows Janet's goodbye message.
      */
     public void showGoodbye() {
-        showLines(DIVIDER, " Okay! Have a wonderful day. Bye!");
+        showLines(DIVIDER, " All set! I'll be right here if you need me. Bye!");
     }
 
     /**
@@ -194,6 +202,17 @@ public class Ui {
     private void showTask(Task task) {
         output.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
                 + task.getDescription());
+    }
+
+    /**
+     * Formats a task count with the correct singular or plural noun.
+     *
+     * @param taskCount number of tasks
+     * @return readable task count
+     */
+    private String formatTaskCount(int taskCount) {
+        String noun = taskCount == 1 ? "task" : "tasks";
+        return taskCount + " " + noun;
     }
 
     /**
