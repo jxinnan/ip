@@ -2,7 +2,9 @@ package janet.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -10,6 +12,18 @@ import org.junit.jupiter.api.Test;
 import janet.exception.InvalidTaskException;
 
 class TaskListTest {
+    @Test
+    void constructor_sourceListChanges_doesNotChangeTaskList() {
+        ArrayList<Task> sourceTasks = new ArrayList<>();
+        sourceTasks.add(new Todo("first"));
+        TaskList tasks = new TaskList(sourceTasks);
+
+        sourceTasks.add(new Todo("second"));
+
+        assertEquals(1, tasks.size());
+        assertEquals("first", tasks.get(1).getDescription());
+    }
+
     @Test
     void delete_existingTask_removesAndReturnsSelectedTask() {
         TaskList tasks = new TaskList();
@@ -77,5 +91,37 @@ class TaskListTest {
         assertEquals(2, matchingTasks.size());
         assertEquals("read book", matchingTasks.get(0).getDescription());
         assertEquals("borrow book", matchingTasks.get(1).getDescription());
+    }
+
+    @Test
+    void find_missingOrDifferentlyCasedKeyword_returnsEmptyList() {
+        TaskList tasks = new TaskList(List.of(new Todo("read book")));
+
+        assertTrue(tasks.find("missing").isEmpty());
+        assertTrue(tasks.find("Book").isEmpty());
+    }
+
+    @Test
+    void getTasks_returnedListCannotChangeTaskList() {
+        TaskList tasks = new TaskList(List.of(new Todo("first")));
+        List<Task> returnedTasks = tasks.getTasks();
+
+        assertThrows(UnsupportedOperationException.class, () -> returnedTasks.add(new Todo("second")));
+        assertEquals(1, tasks.size());
+    }
+
+    @Test
+    void restore_previousSnapshot_replacesCurrentOrder() {
+        Task firstTask = new Todo("first");
+        Task secondTask = new Todo("second");
+        TaskList tasks = new TaskList(List.of(firstTask, secondTask));
+        List<Task> previousTasks = tasks.getTasks();
+        tasks.delete(1);
+
+        tasks.restore(previousTasks);
+
+        assertEquals(List.of("first", "second"), tasks.getTasks().stream()
+                .map(Task::getDescription)
+                .toList());
     }
 }

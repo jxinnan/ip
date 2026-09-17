@@ -15,6 +15,7 @@ import org.junit.jupiter.api.io.TempDir;
 
 import janet.exception.StorageException;
 import janet.task.Deadline;
+import janet.task.Event;
 import janet.task.Task;
 import janet.task.TaskList;
 import janet.task.Todo;
@@ -24,22 +25,29 @@ class StorageTest {
     Path temporaryDirectory;
 
     @Test
-    void saveAndLoad_multipleTaskTypes_preservesTaskDetailsAndStatus() {
+    void saveAndLoad_multipleTaskTypes_preservesTaskDetailsAndStatus() throws IOException {
         Storage storage = new Storage(temporaryDirectory.resolve("data/tasks.txt").toString());
         TaskList originalTasks = new TaskList();
         Todo completedTodo = new Todo("read book");
         completedTodo.markAsDone();
         originalTasks.add(completedTodo);
         originalTasks.add(new Deadline("return book", LocalDate.of(2019, 12, 2)));
+        originalTasks.add(new Event("project meeting", "Mon 2pm", "4pm"));
 
         storage.save(originalTasks);
         TaskList loadedTasks = new TaskList(storage.load());
 
-        assertEquals(2, loadedTasks.size());
+        assertEquals(3, loadedTasks.size());
         Task loadedTodo = loadedTasks.get(1);
         assertEquals("read book", loadedTodo.getRawDescription());
         assertTrue(loadedTodo.isDone());
         assertEquals("return book (by: Dec 02 2019)", loadedTasks.get(2).getDescription());
+        assertEquals("project meeting (from: Mon 2pm to: 4pm)", loadedTasks.get(3).getDescription());
+        assertEquals(List.of(
+                "T\t1\tread book",
+                "D\t0\treturn book\t2019-12-02",
+                "E\t0\tproject meeting\tMon 2pm\t4pm"), Files.readAllLines(
+                        temporaryDirectory.resolve("data/tasks.txt")));
     }
 
     @Test
@@ -67,6 +75,48 @@ class StorageTest {
         assertTrue(storage.getLoadWarnings().get(0).contains("line 2"));
         assertThrows(StorageException.class, () -> storage.save(new TaskList(loadedTasks)));
         assertEquals(originalData, Files.readString(dataFile));
+    }
+
+    @Test
+    void load_allMalformedRowTypes_reportsEveryLineAndProtectsFile() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("data/tasks.txt");
+        Files.createDirectories(dataFile.getParent());
+        String originalData = String.join("\n",
+                "T\t0\tvalid task",
+                "T\t2\tinvalid status",
+                "X\t0\tunknown type",
+                "D\t0\tinvalid date\t2019-02-29",
+                "E\t0\tmissing end\t2pm",
+                "T\t0\t",
+                "E\t0\t\t2pm\t4pm") + "\n";
+        Files.writeString(dataFile, originalData);
+        Storage storage = new Storage(dataFile.toString());
+
+        List<Task> loadedTasks = storage.load();
+
+        assertEquals(1, loadedTasks.size());
+        assertTrue(storage.getLoadWarnings().get(0).contains("lines 2, 3, 4, 5, 6, 7"));
+        assertThrows(UnsupportedOperationException.class, () ->
+                storage.getLoadWarnings().add("another warning"));
+        assertThrows(StorageException.class, () -> storage.save(new TaskList(loadedTasks)));
+        assertEquals(originalData, Files.readString(dataFile));
+    }
+
+    @Test
+    void load_fileFixedAfterWarning_allowsSavingAgain() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("data/tasks.txt");
+        Files.createDirectories(dataFile.getParent());
+        Files.writeString(dataFile, "invalid row\n");
+        Storage storage = new Storage(dataFile.toString());
+        storage.load();
+        assertThrows(StorageException.class, () -> storage.save(new TaskList()));
+
+        Files.writeString(dataFile, "T\t0\trecovered task\n");
+        List<Task> recoveredTasks = storage.load();
+        storage.save(new TaskList(recoveredTasks));
+
+        assertTrue(storage.getLoadWarnings().isEmpty());
+        assertEquals("T\t0\trecovered task\n", Files.readString(dataFile));
     }
 
     @Test

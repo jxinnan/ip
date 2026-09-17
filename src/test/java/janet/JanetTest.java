@@ -106,4 +106,30 @@ class JanetTest {
         assertFalse(exitResult.isError());
         assertTrue(exitResult.isExit());
     }
+
+    @Test
+    void getResponse_completeCommandWorkflow_updatesStateAndSavedData() throws IOException {
+        Path dataFile = temporaryDirectory.resolve("data/janet.txt");
+        Janet janet = new Janet(dataFile.toString());
+
+        janet.getResponse("todo read book");
+        janet.getResponse("deadline return book /by 2019-12-02");
+        janet.getResponse("event project meeting /from Mon 2pm /to 4pm");
+        String markResponse = janet.getResponse("mark 2");
+        String unmarkResponse = janet.getResponse("unmark 2");
+        String findResponse = janet.getResponse("find book");
+        String deleteResponse = janet.getResponse("delete 3 1");
+        String listResponse = janet.getResponse("list");
+
+        assertTrue(markResponse.contains("[D][X] return book"));
+        assertTrue(unmarkResponse.contains("[D][ ] return book"));
+        assertTrue(findResponse.contains("read book"));
+        assertTrue(findResponse.contains("return book"));
+        assertTrue(deleteResponse.contains("project meeting"));
+        assertTrue(deleteResponse.contains("read book"));
+        assertFalse(listResponse.contains("read book"));
+        assertFalse(listResponse.contains("project meeting"));
+        assertTrue(listResponse.contains("1.[D][ ] return book"));
+        assertEquals("D\t0\treturn book\t2019-12-02\n", Files.readString(dataFile));
+    }
 }
