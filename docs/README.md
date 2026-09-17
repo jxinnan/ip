@@ -31,3 +31,14 @@ shows an error and removes nothing. A single-task command such as `delete 2` con
 
 Task numbers refer to the list as it appeared before the command. Removed tasks are confirmed in the order entered,
 while the remaining tasks keep their relative order.
+
+## Error recovery
+
+Janet accepts commands with extra spaces before or after them, but rejects unexpected arguments for commands such as
+`list` and `bye`. Empty commands and task details containing tabs or line breaks also produce a specific error instead
+of changing the task list.
+
+A missing data file is treated as a new task list and is created when the first task is saved. If an existing data file
+cannot be read or contains malformed rows, Janet reports the problem and loads any valid rows it can read. Saving is
+then disabled for that session so the original file is not overwritten; fix the file and restart Janet to resume
+saving. If a write fails during normal use, Janet reverses the attempted task change.

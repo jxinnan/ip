@@ -3,12 +3,14 @@ package janet;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import janet.exception.JanetException;
 import janet.logic.Command;
 import janet.logic.Parser;
 import janet.storage.Storage;
+import janet.task.Task;
 import janet.task.TaskList;
 import janet.ui.Ui;
 
@@ -24,6 +26,9 @@ public class Janet {
 
     /** Holds the tasks managed during this run. */
     private final TaskList tasks;
+
+    /** Warnings found while loading saved tasks. */
+    private final List<String> startupWarnings;
 
     /** Handles console input and output. */
     private final Ui ui;
@@ -43,7 +48,9 @@ public class Janet {
     Janet(String dataFilePath) {
         ui = new Ui();
         storage = new Storage(dataFilePath);
-        tasks = new TaskList(storage.load());
+        List<Task> loadedTasks = storage.load();
+        tasks = new TaskList(loadedTasks);
+        startupWarnings = storage.getLoadWarnings();
     }
 
     /**
@@ -51,6 +58,12 @@ public class Janet {
      */
     public void run() {
         ui.showWelcome();
+        for (String warning : startupWarnings) {
+            ui.showError(warning);
+        }
+        if (!startupWarnings.isEmpty()) {
+            ui.showLine();
+        }
         boolean isExit = false;
         while (!isExit && ui.hasNextCommand()) {
             try {
@@ -88,6 +101,15 @@ public class Janet {
                 .map(String::stripLeading)
                 .collect(Collectors.joining(System.lineSeparator()))
                 .stripTrailing();
+    }
+
+    /**
+     * Returns warnings found while loading saved tasks.
+     *
+     * @return read-only startup warning list
+     */
+    public List<String> getStartupWarnings() {
+        return startupWarnings;
     }
 
     /**

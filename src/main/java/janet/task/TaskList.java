@@ -128,4 +128,16 @@ public class TaskList {
     public List<Task> getTasks() {
         return List.copyOf(tasks);
     }
+
+    /**
+     * Restores a previously captured task-list state after a failed operation.
+     *
+     * @param previousTasks tasks in their previous display order
+     */
+    public void restore(List<Task> previousTasks) {
+        assert previousTasks != null : "A previous task-list state must be available for restoration";
+
+        tasks.clear();
+        tasks.addAll(previousTasks);
+    }
 }

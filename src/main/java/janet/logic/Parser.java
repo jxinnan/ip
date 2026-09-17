@@ -30,19 +30,42 @@ public class Parser {
     public static Command parse(String userInput) {
         assert userInput != null : "User input must come from an available UI command";
 
-        CommandName commandName = CommandName.from(userInput);
+        String normalizedInput = userInput.strip();
+        if (normalizedInput.isEmpty()) {
+            throw new InvalidCommandException("Please enter a command.");
+        }
+
+        CommandName commandName = CommandName.from(normalizedInput);
         return switch (commandName) {
-            case LIST -> new ListCommand();
-            case TODO -> new AddCommand(parseTodo(userInput));
-            case EVENT -> new AddCommand(parseEvent(userInput));
-            case DEADLINE -> new AddCommand(parseDeadline(userInput));
-            case DELETE -> new DeleteCommand(parseTaskNumbers(userInput));
-            case MARK -> new MarkCommand(parseTaskNumber(userInput));
-            case UNMARK -> new UnmarkCommand(parseTaskNumber(userInput));
-            case FIND -> new FindCommand(parseKeyword(userInput));
-            case BYE -> new ExitCommand();
+            case LIST -> {
+                requireNoArgument(normalizedInput, "list");
+                yield new ListCommand();
+            }
+            case TODO -> new AddCommand(parseTodo(normalizedInput));
+            case EVENT -> new AddCommand(parseEvent(normalizedInput));
+            case DEADLINE -> new AddCommand(parseDeadline(normalizedInput));
+            case DELETE -> new DeleteCommand(parseTaskNumbers(normalizedInput));
+            case MARK -> new MarkCommand(parseTaskNumber(normalizedInput));
+            case UNMARK -> new UnmarkCommand(parseTaskNumber(normalizedInput));
+            case FIND -> new FindCommand(parseKeyword(normalizedInput));
+            case BYE -> {
+                requireNoArgument(normalizedInput, "bye");
+                yield new ExitCommand();
+            }
             case UNKNOWN -> throw new InvalidCommandException("OOPS!!! I don't recognize that command.");
         };
+    }
+
+    /**
+     * Rejects extra text supplied to a command that takes no argument.
+     *
+     * @param userInput complete command text
+     * @param commandName command that must not receive an argument
+     */
+    private static void requireNoArgument(String userInput, String commandName) {
+        if (!parseArgument(userInput).isEmpty()) {
+            throw new InvalidCommandException("Sorry, " + commandName + " does not take any arguments.");
+        }
     }
 
     /**
@@ -56,6 +79,7 @@ public class Parser {
         if (description.isEmpty()) {
             throw new InvalidCommandException("OOPS!!! A todo needs a description.");
         }
+        validateStorableText(description);
         return new Todo(description);
     }
 
@@ -81,6 +105,9 @@ public class Parser {
         if (description.isEmpty() || start.isEmpty() || end.isEmpty()) {
             throw new InvalidCommandException("OOPS!!! An event needs a description, start, and end.");
         }
+        validateStorableText(description);
+        validateStorableText(start);
+        validateStorableText(end);
         return new Event(description, start, end);
     }
 
@@ -102,6 +129,7 @@ public class Parser {
         if (description.isEmpty() || deadlineText.isEmpty()) {
             throw new InvalidCommandException("OOPS!!! A deadline needs a description and due time.");
         }
+        validateStorableText(description);
         try {
             return new Deadline(description, LocalDate.parse(deadlineText));
         } catch (DateTimeParseException exception) {
@@ -174,7 +202,24 @@ public class Parser {
      * @return the command argument, or an empty string when none was supplied
      */
     private static String parseArgument(String userInput) {
-        int firstSpace = userInput.indexOf(' ');
-        return firstSpace < 0 ? "" : userInput.substring(firstSpace + 1).trim();
+        int firstWhitespace = -1;
+        for (int index = 0; index < userInput.length(); index++) {
+            if (Character.isWhitespace(userInput.charAt(index))) {
+                firstWhitespace = index;
+                break;
+            }
+        }
+        return firstWhitespace < 0 ? "" : userInput.substring(firstWhitespace + 1).strip();
+    }
+
+    /**
+     * Rejects control characters that would corrupt Janet's line-based data format.
+     *
+     * @param text task text that will be saved
+     */
+    private static void validateStorableText(String text) {
+        if (text.indexOf('\t') >= 0 || text.indexOf('\n') >= 0 || text.indexOf('\r') >= 0) {
+            throw new InvalidCommandException("Sorry, task details cannot contain tabs or line breaks.");
+        }
     }
 }
