@@ -35,7 +35,7 @@ public class Storage {
     /**
      * Creates storage for one task data file.
      *
-     * @param filePath relative path of the data file
+     * @param filePath relative path of the data file.
      */
     public Storage(String filePath) {
         dataFilePath = Path.of(filePath);
@@ -92,7 +92,7 @@ public class Storage {
     /**
      * Saves all tasks to the data file.
      *
-     * @param tasks tasks to persist
+     * @param tasks tasks to persist.
      * @throws StorageException if saving is blocked or the data file cannot be replaced
      */
     public void save(TaskList tasks) {
@@ -132,8 +132,8 @@ public class Storage {
     /**
      * Replaces the data file atomically when the file system supports it.
      *
-     * @param temporaryFilePath complete temporary file
-     * @param absoluteDataFilePath destination data file
+     * @param temporaryFilePath complete temporary file.
+     * @param absoluteDataFilePath destination data file.
      * @throws IOException if neither replacement method succeeds
      */
     private void replaceDataFile(Path temporaryFilePath, Path absoluteDataFilePath) throws IOException {
@@ -148,7 +148,7 @@ public class Storage {
     /**
      * Creates a task from one tab-separated line in the data file.
      *
-     * @param line a line read from the data file
+     * @param line a line read from the data file.
      * @return a reconstructed task, or {@code null} when the line is malformed
      */
     private Task parseStoredTask(String line) {
@@ -185,7 +185,7 @@ public class Storage {
     /**
      * Converts one task to a tab-separated data-file line.
      *
-     * @param task task to persist
+     * @param task task to persist.
      * @return a data-file line representing the task
      */
     private String formatStoredTask(Task task) {
@@ -209,7 +209,7 @@ public class Storage {
     /**
      * Describes malformed saved-task lines and how Janet protects the source file.
      *
-     * @param lineNumbers one-based malformed line numbers
+     * @param lineNumbers one-based malformed line numbers.
      * @return user-facing warning
      */
     private String formatMalformedDataWarning(List<Integer> lineNumbers) {

@@ -28,7 +28,7 @@ public class TaskList {
     /**
      * Creates a task list containing loaded tasks.
      *
-     * @param tasks tasks to place in the new list
+     * @param tasks tasks to place in the new list.
      */
     public TaskList(List<Task> tasks) {
         this.tasks = new ArrayList<>(tasks);
@@ -37,7 +37,7 @@ public class TaskList {
     /**
      * Adds a task to this list.
      *
-     * @param task the task to add
+     * @param task the task to add.
      */
     public void add(Task task) {
         assert task != null : "Only tasks created or loaded by Janet may be added";
@@ -51,7 +51,7 @@ public class TaskList {
     /**
      * Returns a task by its one-based task number.
      *
-     * @param taskNumber one-based task number
+     * @param taskNumber one-based task number.
      * @return the selected task
      */
     public Task get(int taskNumber) {
@@ -64,7 +64,7 @@ public class TaskList {
     /**
      * Removes and returns a task by its one-based task number.
      *
-     * @param taskNumber one-based task number
+     * @param taskNumber one-based task number.
      * @return the removed task
      */
     public Task delete(int taskNumber) {
@@ -77,7 +77,7 @@ public class TaskList {
      * <p>All task numbers are validated before any task is removed. Returned tasks follow the order of the
      * supplied task numbers.</p>
      *
-     * @param taskNumbers one-based task numbers
+     * @param taskNumbers one-based task numbers.
      * @return the removed tasks in the requested order
      */
     public List<Task> delete(List<Integer> taskNumbers) {
@@ -102,7 +102,7 @@ public class TaskList {
     /**
      * Returns tasks whose unformatted descriptions contain a keyword.
      *
-     * @param keyword text to search for
+     * @param keyword text to search for.
      * @return matching tasks in their original order
      */
     public List<Task> find(String keyword) {
@@ -132,7 +132,7 @@ public class TaskList {
     /**
      * Restores a previously captured task-list state after a failed operation.
      *
-     * @param previousTasks tasks in their previous display order
+     * @param previousTasks tasks in their previous display order.
      */
     public void restore(List<Task> previousTasks) {
         assert previousTasks != null : "A previous task-list state must be available for restoration";

@@ -20,7 +20,7 @@ public enum CommandName {
     /**
      * Parses the command name from a complete user input.
      *
-     * @param command the complete user input
+     * @param command the complete user input.
      * @return the matching command name, or {@link #UNKNOWN}
      */
     public static CommandName from(String command) {

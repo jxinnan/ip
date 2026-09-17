@@ -24,7 +24,7 @@ public class Parser {
     /**
      * Parses a complete user command.
      *
-     * @param userInput command text entered by the user
+     * @param userInput command text entered by the user.
      * @return a command ready for execution
      */
     public static Command parse(String userInput) {
@@ -59,8 +59,8 @@ public class Parser {
     /**
      * Rejects extra text supplied to a command that takes no argument.
      *
-     * @param userInput complete command text
-     * @param commandName command that must not receive an argument
+     * @param userInput complete command text.
+     * @param commandName command that must not receive an argument.
      */
     private static void requireNoArgument(String userInput, String commandName) {
         if (!parseArgument(userInput).isEmpty()) {
@@ -71,7 +71,7 @@ public class Parser {
     /**
      * Parses a to-do command.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return the to-do task described by the command
      */
     private static Todo parseTodo(String userInput) {
@@ -86,7 +86,7 @@ public class Parser {
     /**
      * Parses an event command.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return the event task described by the command
      */
     private static Event parseEvent(String userInput) {
@@ -114,7 +114,7 @@ public class Parser {
     /**
      * Parses a deadline command.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return the deadline task described by the command
      */
     private static Deadline parseDeadline(String userInput) {
@@ -140,7 +140,7 @@ public class Parser {
     /**
      * Parses the one-based task number at the end of a task command.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return the parsed task number
      */
     private static int parseTaskNumber(String userInput) {
@@ -159,7 +159,7 @@ public class Parser {
     /**
      * Parses the one-based task numbers supplied to a mass operation.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return task numbers in the order entered by the user
      */
     private static List<Integer> parseTaskNumbers(String userInput) {
@@ -184,7 +184,7 @@ public class Parser {
     /**
      * Parses the keyword supplied to a find command.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return the non-empty keyword to search for
      */
     private static String parseKeyword(String userInput) {
@@ -198,7 +198,7 @@ public class Parser {
     /**
      * Returns the trimmed text after a command name.
      *
-     * @param userInput complete command text
+     * @param userInput complete command text.
      * @return the command argument, or an empty string when none was supplied
      */
     private static String parseArgument(String userInput) {
@@ -215,7 +215,7 @@ public class Parser {
     /**
      * Rejects control characters that would corrupt Janet's line-based data format.
      *
-     * @param text task text that will be saved
+     * @param text task text that will be saved.
      */
     private static void validateStorableText(String text) {
         if (text.indexOf('\t') >= 0 || text.indexOf('\n') >= 0 || text.indexOf('\r') >= 0) {

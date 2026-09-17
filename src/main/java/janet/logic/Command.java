@@ -15,9 +15,9 @@ public abstract class Command {
     /**
      * Executes this command using Janet's collaborating components.
      *
-     * @param tasks Janet's task list
-     * @param ui Janet's user interface
-     * @param storage Janet's task storage
+     * @param tasks Janet's task list.
+     * @param ui Janet's user interface.
+     * @param storage Janet's task storage.
      */
     public abstract void execute(TaskList tasks, Ui ui, Storage storage);
 
@@ -38,7 +38,7 @@ class AddCommand extends Command {
     /**
      * Creates a command that adds one task.
      *
-     * @param task task to add
+     * @param task task to add.
      */
     AddCommand(Task task) {
         this.task = task;
@@ -73,7 +73,7 @@ class DeleteCommand extends Command {
     /**
      * Creates a command that deletes one or more tasks.
      *
-     * @param taskNumbers one-based numbers of the tasks to delete
+     * @param taskNumbers one-based numbers of the tasks to delete.
      */
     DeleteCommand(List<Integer> taskNumbers) {
         this.taskNumbers = List.copyOf(taskNumbers);
@@ -104,7 +104,7 @@ class MarkCommand extends Command {
     /**
      * Creates a command that marks one task as complete.
      *
-     * @param taskNumber one-based number of the task to mark
+     * @param taskNumber one-based number of the task to mark.
      */
     MarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;
@@ -141,7 +141,7 @@ class UnmarkCommand extends Command {
     /**
      * Creates a command that marks one task as incomplete.
      *
-     * @param taskNumber one-based number of the task to unmark
+     * @param taskNumber one-based number of the task to unmark.
      */
     UnmarkCommand(int taskNumber) {
         this.taskNumber = taskNumber;

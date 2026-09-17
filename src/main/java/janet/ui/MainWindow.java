@@ -47,7 +47,7 @@ public class MainWindow {
     /**
      * Supplies the Janet instance used to process commands.
      *
-     * @param janet chatbot instance
+     * @param janet chatbot instance.
      */
     public void setJanet(Janet janet) {
         this.janet = janet;

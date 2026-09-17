@@ -29,7 +29,7 @@ public class Ui {
     /**
      * Creates a user interface that writes to a specific output stream.
      *
-     * @param output destination for Janet's messages
+     * @param output destination for Janet's messages.
      */
     public Ui(PrintStream output) {
         this.output = output;
@@ -74,7 +74,7 @@ public class Ui {
     /**
      * Shows the list of tasks.
      *
-     * @param tasks tasks to display
+     * @param tasks tasks to display.
      */
     public void showTaskList(List<Task> tasks) {
         if (tasks.isEmpty()) {
@@ -88,7 +88,7 @@ public class Ui {
     /**
      * Shows tasks matching a user-entered keyword.
      *
-     * @param tasks matching tasks to display
+     * @param tasks matching tasks to display.
      */
     public void showMatchingTasks(List<Task> tasks) {
         if (tasks.isEmpty()) {
@@ -102,7 +102,7 @@ public class Ui {
     /**
      * Shows tasks as a numbered list.
      *
-     * @param tasks tasks to display
+     * @param tasks tasks to display.
      */
     private void showTasks(List<Task> tasks) {
         for (int index = 0; index < tasks.size(); index++) {
@@ -115,8 +115,8 @@ public class Ui {
     /**
      * Shows confirmation that a task has been added.
      *
-     * @param task the task added
-     * @param taskCount total number of tasks
+     * @param task the task added.
+     * @param taskCount total number of tasks.
      */
     public void showTaskAdded(Task task, int taskCount) {
         showLines(
@@ -128,7 +128,7 @@ public class Ui {
     /**
      * Shows confirmation that a task has been marked as done.
      *
-     * @param task the completed task
+     * @param task the completed task.
      */
     public void showTaskMarked(Task task) {
         output.println(" Excellent! This task is now complete:");
@@ -138,7 +138,7 @@ public class Ui {
     /**
      * Shows confirmation that a task has been marked as incomplete.
      *
-     * @param task the incomplete task
+     * @param task the incomplete task.
      */
     public void showTaskUnmarked(Task task) {
         output.println(" No problem! This task is back in progress:");
@@ -148,8 +148,8 @@ public class Ui {
     /**
      * Shows confirmation that a task has been removed.
      *
-     * @param task the removed task
-     * @param taskCount total number of tasks remaining
+     * @param task the removed task.
+     * @param taskCount total number of tasks remaining.
      */
     public void showTaskDeleted(Task task, int taskCount) {
         output.println(" Done! I removed this task:");
@@ -160,8 +160,8 @@ public class Ui {
     /**
      * Shows confirmation that multiple tasks have been removed.
      *
-     * @param tasks the removed tasks in the user's requested order
-     * @param taskCount total number of tasks remaining
+     * @param tasks the removed tasks in the user's requested order.
+     * @param taskCount total number of tasks remaining.
      */
     public void showTasksDeleted(List<Task> tasks, int taskCount) {
         output.println(" Done! I removed these tasks:");
@@ -174,7 +174,7 @@ public class Ui {
     /**
      * Shows a user-facing error message.
      *
-     * @param message the error message
+     * @param message the error message.
      */
     public void showError(String message) {
         output.println(" " + message);
@@ -197,7 +197,7 @@ public class Ui {
     /**
      * Shows one task in Janet's indented response format.
      *
-     * @param task the task to display
+     * @param task the task to display.
      */
     private void showTask(Task task) {
         output.println("   " + task.getTypeIcon() + "[" + task.getStatusIcon() + "] "
@@ -207,7 +207,7 @@ public class Ui {
     /**
      * Formats a task count with the correct singular or plural noun.
      *
-     * @param taskCount number of tasks
+     * @param taskCount number of tasks.
      * @return readable task count
      */
     private String formatTaskCount(int taskCount) {
@@ -218,7 +218,7 @@ public class Ui {
     /**
      * Shows any number of lines in their supplied order.
      *
-     * @param lines lines to display
+     * @param lines lines to display.
      */
     private void showLines(String... lines) {
         for (String line : lines) {

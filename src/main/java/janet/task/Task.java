@@ -13,7 +13,7 @@ public abstract class Task {
     /**
      * Creates a new incomplete task.
      *
-     * @param description the text describing the task
+     * @param description the text describing the task.
      */
     protected Task(String description) {
         this.description = description;

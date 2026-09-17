@@ -43,7 +43,7 @@ public class Janet {
     /**
      * Creates Janet with a specific task data file.
      *
-     * @param dataFilePath path of the file used to store tasks
+     * @param dataFilePath path of the file used to store tasks.
      */
     Janet(String dataFilePath) {
         ui = new Ui();
@@ -81,7 +81,7 @@ public class Janet {
     /**
      * Processes one command and returns its response for the graphical interface.
      *
-     * @param userInput command entered by the user
+     * @param userInput command entered by the user.
      * @return Janet's response without console divider lines
      */
     public String getResponse(String userInput) {
@@ -91,7 +91,7 @@ public class Janet {
     /**
      * Processes one command and describes how its response should be presented.
      *
-     * @param userInput command entered by the user
+     * @param userInput command entered by the user.
      * @return response text together with error and exit state
      */
     public CommandResult getCommandResult(String userInput) {
@@ -130,7 +130,7 @@ public class Janet {
     /**
      * Starts Janet from the command line.
      *
-     * @param args command-line arguments, which Janet does not use
+     * @param args command-line arguments, which Janet does not use.
      */
     public static void main(String[] args) {
         new Janet().run();
