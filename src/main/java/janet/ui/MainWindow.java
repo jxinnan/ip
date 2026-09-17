@@ -49,6 +49,9 @@ public class MainWindow {
      */
     public void setJanet(Janet janet) {
         this.janet = janet;
+        for (String warning : janet.getStartupWarnings()) {
+            dialogContainer.getChildren().add(DialogBox.getJanetDialog(warning));
+        }
         userInput.requestFocus();
     }
 

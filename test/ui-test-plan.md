@@ -16,6 +16,11 @@ accepts input by Enter and the Send button, displays distinct user and Janet bub
 After adding `read book`, enter `todo`, followed by `list`. Verify that Janet shows the missing-description error and
 that the list still contains exactly the original task.
 
+## Manual GUI test: Show and enforce a saved-data warning
+
+Place one valid row followed by one malformed row in `data/janet.txt`, then start Janet. Verify that a warning bubble
+identifies line 2, `list` shows the valid task, and an add command is rejected without overwriting the original file.
+
 ## Manual GUI test: Update an existing task
 
 After adding one task, enter `mark 1`, followed by `list`. Verify that Janet confirms the change and displays `[X]`.
@@ -707,4 +712,107 @@ ____________________________________________________________
 ____________________________________________________________
  Okay! Have a wonderful day. Bye!
 ____________________________________________________________
+```
+
+## Test case: Handle whitespace and unexpected arguments
+
+Aim: Verify that Janet reports blank input, accepts harmless surrounding spaces, and rejects extra arguments without changing tasks.
+
+### Inputs
+
+```text
+
+   todo   spaced task
+list extra
+list
+bye now
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ Please enter a command.
+____________________________________________________________
+ Got it. I've added this task:
+   [T][ ] spaced task
+ Now you have 1 tasks in the list.
+____________________________________________________________
+ Sorry, list does not take any arguments.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] spaced task
+____________________________________________________________
+ Sorry, bye does not take any arguments.
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+## Test case: Protect malformed saved data
+
+Aim: Verify that Janet reports malformed saved rows, keeps valid rows available, and refuses changes that would overwrite the original file.
+
+### Inputs
+
+```text
+list
+todo another task
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi! I'm Janet! I'm here to help with absolutely anything.
+What can I do for you?
+____________________________________________________________
+ I ignored malformed saved-task line 2. Saving is disabled to protect the data file. Fix the file and restart Janet.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] valid task
+____________________________________________________________
+ I can't save changes while the saved-data warning is unresolved. Fix the data file and restart Janet.
+____________________________________________________________
+ Here are the tasks in your list:
+ 1.[T][ ] valid task
+____________________________________________________________
+____________________________________________________________
+ Okay! Have a wonderful day. Bye!
+____________________________________________________________
+```
+
+### Initial saved data
+
+```text
+T	0	valid task
+invalid row
+```
+
+### Expected saved data
+
+```text
+T	0	valid task
+invalid row
 ```

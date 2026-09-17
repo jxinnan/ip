@@ -12,4 +12,14 @@ public class JanetException extends RuntimeException {
     public JanetException(String message) {
         super(message);
     }
+
+    /**
+     * Creates a Janet-specific exception caused by another failure.
+     *
+     * @param message the message to display to the user
+     * @param cause underlying failure
+     */
+    public JanetException(String message, Throwable cause) {
+        super(message, cause);
+    }
 }

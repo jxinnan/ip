@@ -2,6 +2,7 @@ package janet.logic;
 
 import java.util.List;
 
+import janet.exception.StorageException;
 import janet.storage.Storage;
 import janet.task.Task;
 import janet.task.TaskList;
@@ -45,8 +46,14 @@ class AddCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
+        List<Task> previousTasks = tasks.getTasks();
         tasks.add(task);
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (StorageException exception) {
+            tasks.restore(previousTasks);
+            throw exception;
+        }
         ui.showTaskAdded(task, tasks.size());
     }
 }
@@ -74,8 +81,14 @@ class DeleteCommand extends Command {
 
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
+        List<Task> previousTasks = tasks.getTasks();
         List<Task> deletedTasks = tasks.delete(taskNumbers);
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (StorageException exception) {
+            tasks.restore(previousTasks);
+            throw exception;
+        }
         if (deletedTasks.size() == 1) {
             ui.showTaskDeleted(deletedTasks.get(0), tasks.size());
         } else {
@@ -100,9 +113,24 @@ class MarkCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         Task task = tasks.get(taskNumber);
+        boolean wasDone = task.isDone();
         task.markAsDone();
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (StorageException exception) {
+            restoreCompletionStatus(task, wasDone);
+            throw exception;
+        }
         ui.showTaskMarked(task);
+    }
+
+    /** Restores a task's completion status after a failed save. */
+    private void restoreCompletionStatus(Task task, boolean wasDone) {
+        if (wasDone) {
+            task.markAsDone();
+        } else {
+            task.markAsUndone();
+        }
     }
 }
 
@@ -122,9 +150,24 @@ class UnmarkCommand extends Command {
     @Override
     public void execute(TaskList tasks, Ui ui, Storage storage) {
         Task task = tasks.get(taskNumber);
+        boolean wasDone = task.isDone();
         task.markAsUndone();
-        storage.save(tasks);
+        try {
+            storage.save(tasks);
+        } catch (StorageException exception) {
+            restoreCompletionStatus(task, wasDone);
+            throw exception;
+        }
         ui.showTaskUnmarked(task);
+    }
+
+    /** Restores a task's completion status after a failed save. */
+    private void restoreCompletionStatus(Task task, boolean wasDone) {
+        if (wasDone) {
+            task.markAsDone();
+        } else {
+            task.markAsUndone();
+        }
     }
 }
 

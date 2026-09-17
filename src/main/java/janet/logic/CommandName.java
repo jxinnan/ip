@@ -1,5 +1,7 @@
 package janet.logic;
 
+import java.util.Locale;
+
 /**
  * The commands Janet understands at the start of user input.
  */
@@ -29,10 +31,16 @@ public enum CommandName {
             return BYE;
         }
 
-        int firstSpace = command.indexOf(' ');
-        String name = firstSpace < 0 ? command : command.substring(0, firstSpace);
+        int firstWhitespace = -1;
+        for (int index = 0; index < command.length(); index++) {
+            if (Character.isWhitespace(command.charAt(index))) {
+                firstWhitespace = index;
+                break;
+            }
+        }
+        String name = firstWhitespace < 0 ? command : command.substring(0, firstWhitespace);
         try {
-            return CommandName.valueOf(name.toUpperCase());
+            return CommandName.valueOf(name.toUpperCase(Locale.ROOT));
         } catch (IllegalArgumentException exception) {
             return UNKNOWN;
         }
