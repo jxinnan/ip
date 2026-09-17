@@ -3,6 +3,8 @@
 Janet is a friendly desktop task manager for keeping track of to-dos, deadlines, and events. It uses a simple
 chat-style interface, saves changes automatically, and restores your tasks the next time you start it.
 
+![Janet UI](docs/Ui.png)
+
 The character is inspired by Janet from *The Good Place*: cheerful, literal, unfailingly helpful, and always quick
 to point out that she is “not a robot.” That personality gives Janet warm, encouraging responses while she helps
 you stay organized.
