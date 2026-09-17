@@ -9,12 +9,14 @@ The JavaFX cases below are manual because the command-line runner has no graphic
 ## Manual GUI test: Start and add a task
 
 Enter `todo read book`, followed by `list`. Verify that the window opens at a usable size, shows the welcome bubble,
-accepts input by Enter and the Send button, displays distinct user and Janet bubbles, and lists the new task.
+accepts input by Enter and the Send button, displays distinct user and Janet bubbles, and lists the new task. Verify
+that the header, composer, badges, and bubbles use a warm pastel-purple palette with readable contrast.
 
 ## Manual GUI test: Reject malformed input without changing state
 
 After adding `read book`, enter `todo`, followed by `list`. Verify that Janet shows the missing-description error and
-that the list still contains exactly the original task.
+that the list still contains exactly the original task. Verify that the error uses the pink error bubble and `!` badge,
+while the valid list reply uses Janet's cream bubble and `J` badge.
 
 ## Manual GUI test: Show and enforce a saved-data warning
 
@@ -37,7 +39,8 @@ tasks to fill the conversation. Verify that bubbles wrap without clipping and th
 
 ## Manual GUI test: Exit using the bye command
 
-Enter `bye`. Verify that Janet displays its goodbye response, disables further input, and closes after a short delay.
+Enter `  bye  `. Verify that Janet displays its goodbye response, disables further input, and closes after a short
+delay even though the command contains surrounding spaces.
 
 ## Test case: Find tasks by keyword
 

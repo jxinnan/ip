@@ -90,4 +90,20 @@ class JanetTest {
         assertFalse(listResponse.contains("another task"));
         assertEquals(originalData, Files.readString(dataFile));
     }
+
+    @Test
+    void getCommandResult_normalErrorAndExitCommands_classifiesResponses() {
+        Janet janet = new Janet(temporaryDirectory.resolve("data/janet.txt").toString());
+
+        CommandResult normalResult = janet.getCommandResult("list");
+        CommandResult errorResult = janet.getCommandResult("unknown");
+        CommandResult exitResult = janet.getCommandResult("  bye  ");
+
+        assertFalse(normalResult.isError());
+        assertFalse(normalResult.isExit());
+        assertTrue(errorResult.isError());
+        assertFalse(errorResult.isExit());
+        assertFalse(exitResult.isError());
+        assertTrue(exitResult.isExit());
+    }
 }

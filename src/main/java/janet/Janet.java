@@ -85,22 +85,37 @@ public class Janet {
      * @return Janet's response without console divider lines
      */
     public String getResponse(String userInput) {
+        return getCommandResult(userInput).message();
+    }
+
+    /**
+     * Processes one command and describes how its response should be presented.
+     *
+     * @param userInput command entered by the user
+     * @return response text together with error and exit state
+     */
+    public CommandResult getCommandResult(String userInput) {
         ByteArrayOutputStream responseBytes = new ByteArrayOutputStream();
+        boolean isError = false;
+        boolean isExit = false;
         try (PrintStream responseOutput = new PrintStream(responseBytes, true, StandardCharsets.UTF_8)) {
             Ui responseUi = new Ui(responseOutput);
             try {
                 Command command = Parser.parse(userInput);
                 command.execute(tasks, responseUi, storage);
+                isExit = command.isExit();
             } catch (JanetException exception) {
+                isError = true;
                 responseUi.showError(exception.getMessage());
             }
         }
 
-        return responseBytes.toString(StandardCharsets.UTF_8).lines()
+        String message = responseBytes.toString(StandardCharsets.UTF_8).lines()
                 .filter(line -> !line.matches("_+"))
                 .map(String::stripLeading)
                 .collect(Collectors.joining(System.lineSeparator()))
                 .stripTrailing();
+        return new CommandResult(message, isError, isExit);
     }
 
     /**
