@@ -1,5 +1,6 @@
 package janet.ui;
 
+import janet.CommandResult;
 import janet.Janet;
 import javafx.animation.PauseTransition;
 import javafx.application.Platform;
@@ -51,7 +52,7 @@ public class MainWindow {
     public void setJanet(Janet janet) {
         this.janet = janet;
         for (String warning : janet.getStartupWarnings()) {
-            dialogContainer.getChildren().add(DialogBox.getJanetDialog(warning));
+            dialogContainer.getChildren().add(DialogBox.getErrorDialog(warning));
         }
         userInput.requestFocus();
     }
@@ -65,10 +66,14 @@ public class MainWindow {
         if (!input.isBlank()) {
             dialogContainer.getChildren().add(DialogBox.getUserDialog(input));
         }
-        dialogContainer.getChildren().add(DialogBox.getJanetDialog(janet.getResponse(input)));
+        CommandResult result = janet.getCommandResult(input);
+        DialogBox responseDialog = result.isError()
+                ? DialogBox.getErrorDialog(result.message())
+                : DialogBox.getJanetDialog(result.message());
+        dialogContainer.getChildren().add(responseDialog);
         userInput.clear();
 
-        if (input.equals("bye")) {
+        if (result.isExit()) {
             userInput.setDisable(true);
             sendButton.setDisable(true);
             PauseTransition exitPause = new PauseTransition(EXIT_DELAY);

@@ -8,6 +8,10 @@ Character research was informed by
 [Cultured Vultures' Janet profile](https://culturedvultures.com/good-place-janet/); all responses in this app are
 originally written for the project.
 
+The graphical interface uses a warm pastel-purple palette, asymmetric conversation bubbles, and compact speaker
+badges. Errors appear in a separate pink style so they are easy to distinguish from successful replies. The window
+can be resized, and long conversations remain available through the conversation scrollbar.
+
 ## Commands
 
 | Action | Command | Example |
