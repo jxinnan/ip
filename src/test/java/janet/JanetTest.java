@@ -24,9 +24,9 @@ class JanetTest {
         String listResponse = janet.getResponse("list");
 
         assertEquals("""
-                Got it. I've added this task:
+                Done and done! I added this task:
                 [T][ ] read book
-                Now you have 1 tasks in the list.""", addResponse);
+                You now have 1 task.""", addResponse);
         assertEquals("Sorry, that task number does not exist.", invalidResponse);
         assertTrue(listResponse.contains("1.[T][ ] read book"));
     }

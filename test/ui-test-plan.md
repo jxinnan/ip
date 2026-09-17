@@ -52,6 +52,7 @@ event project meeting /from Mon 2pm /to 4pm
 find book
 find
 find meeting
+find missing
 list
 bye
 ```
@@ -67,37 +68,39 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [D][ ] return book (by: Dec 02 2019)
- Now you have 2 tasks in the list.
+ You now have 2 tasks.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [E][ ] project meeting (from: Mon 2pm to: 4pm)
- Now you have 3 tasks in the list.
+ You now have 3 tasks.
 ____________________________________________________________
- Here are the matching tasks in your list:
+ I found these matching tasks:
  1.[T][ ] read book
  2.[D][ ] return book (by: Dec 02 2019)
 ____________________________________________________________
  OOPS!!! A find command needs a keyword.
 ____________________________________________________________
- Here are the matching tasks in your list:
+ I found these matching tasks:
  1.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
- Here are the tasks in your list:
+ I checked the whole list. No matching tasks found.
+____________________________________________________________
+ Absolutely! Here is everything on your list:
  1.[T][ ] read book
  2.[D][ ] return book (by: Dec 02 2019)
  3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -134,28 +137,28 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] alpha
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] bravo
- Now you have 2 tasks in the list.
+ You now have 2 tasks.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [D][ ] charlie (by: Dec 02 2019)
- Now you have 3 tasks in the list.
+ You now have 3 tasks.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [E][ ] delta (from: Mon 2pm to: 4pm)
- Now you have 4 tasks in the list.
+ You now have 4 tasks.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] echo
- Now you have 5 tasks in the list.
+ You now have 5 tasks.
 ____________________________________________________________
  Sorry, please provide each task number only once.
 ____________________________________________________________
@@ -163,25 +166,25 @@ ____________________________________________________________
 ____________________________________________________________
  Sorry, that task number does not exist.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] alpha
  2.[T][ ] bravo
  3.[D][ ] charlie (by: Dec 02 2019)
  4.[E][ ] delta (from: Mon 2pm to: 4pm)
  5.[T][ ] echo
 ____________________________________________________________
- Noted. I've removed these tasks:
+ Done! I removed these tasks:
    [E][ ] delta (from: Mon 2pm to: 4pm)
    [T][ ] bravo
- Now you have 3 tasks in the list.
+ You now have 3 tasks.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] alpha
  2.[D][ ] charlie (by: Dec 02 2019)
  3.[T][ ] echo
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -216,18 +219,18 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Excellent! This task is now complete:
    [T][X] read book
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -259,16 +262,16 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][X] read book
  2.[D][ ] return book (by: Dec 02 2019)
  3.[E][X] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -306,27 +309,27 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] read book
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Excellent! This task is now complete:
    [T][X] read book
 ____________________________________________________________
- Okay, I've marked this task as not done yet:
+ No problem! This task is back in progress:
    [T][ ] read book
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -356,31 +359,31 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [D][ ] return book (by: Dec 02 2019)
- Now you have 2 tasks in the list.
+ You now have 2 tasks.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [E][ ] project meeting (from: Mon 2pm to: 4pm)
- Now you have 3 tasks in the list.
+ You now have 3 tasks.
 ____________________________________________________________
- Noted. I've removed this task:
+ Done! I removed this task:
    [E][ ] project meeting (from: Mon 2pm to: 4pm)
- Now you have 2 tasks in the list.
+ You now have 2 tasks.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] read book
  2.[D][ ] return book (by: Dec 02 2019)
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -409,24 +412,24 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [E][ ] project meeting (from: Mon 2pm to: 4pm)
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Excellent! This task is now complete:
    [E][X] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[E][X] project meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -455,24 +458,24 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [D][ ] return book (by: Dec 02 2019)
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[D][ ] return book (by: Dec 02 2019)
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Excellent! This task is now complete:
    [D][X] return book (by: Dec 02 2019)
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[D][X] return book (by: Dec 02 2019)
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -507,24 +510,24 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] borrow book
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] borrow book
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Excellent! This task is now complete:
    [T][X] borrow book
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][X] borrow book
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -554,24 +557,24 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Here are the tasks in your list:
+ Your task list is empty. Everything is wonderfully under control.
 ____________________________________________________________
  OOPS!!! A todo needs a description.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] read book
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
  OOPS!!! I don't recognize that command.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] read book
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -605,8 +608,8 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
  Sorry, please use: deadline <task> /by <date or time>.
 ____________________________________________________________
@@ -614,9 +617,9 @@ ____________________________________________________________
 ____________________________________________________________
  Sorry, please provide a deadline date in yyyy-MM-dd format.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [D][ ] submit report (by: Dec 06 2019)
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
  Sorry, please use: event <task> /from <start> /to <end>.
 ____________________________________________________________
@@ -624,16 +627,16 @@ ____________________________________________________________
 ____________________________________________________________
  OOPS!!! An event needs a description, start, and end.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [E][ ] meeting (from: Mon 2pm to: 4pm)
- Now you have 2 tasks in the list.
+ You now have 2 tasks.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[D][ ] submit report (by: Dec 06 2019)
  2.[E][ ] meeting (from: Mon 2pm to: 4pm)
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -672,12 +675,12 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] alpha
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
  Sorry, please provide a valid task number.
 ____________________________________________________________
@@ -685,7 +688,7 @@ ____________________________________________________________
 ____________________________________________________________
  Sorry, that task number does not exist.
 ____________________________________________________________
- Nice! I've marked this task as done:
+ Excellent! This task is now complete:
    [T][X] alpha
 ____________________________________________________________
  Sorry, please provide a valid task number.
@@ -694,7 +697,7 @@ ____________________________________________________________
 ____________________________________________________________
  Sorry, that task number does not exist.
 ____________________________________________________________
- Okay, I've marked this task as not done yet:
+ No problem! This task is back in progress:
    [T][ ] alpha
 ____________________________________________________________
  Sorry, please provide a valid task number.
@@ -703,14 +706,14 @@ ____________________________________________________________
 ____________________________________________________________
  Sorry, that task number does not exist.
 ____________________________________________________________
- Noted. I've removed this task:
+ Done! I removed this task:
    [T][ ] alpha
- Now you have 0 tasks in the list.
+ You now have 0 tasks.
 ____________________________________________________________
- Here are the tasks in your list:
+ Your task list is empty. Everything is wonderfully under control.
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -740,24 +743,24 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
  Please enter a command.
 ____________________________________________________________
- Got it. I've added this task:
+ Done and done! I added this task:
    [T][ ] spaced task
- Now you have 1 tasks in the list.
+ You now have 1 task.
 ____________________________________________________________
  Sorry, list does not take any arguments.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] spaced task
 ____________________________________________________________
  Sorry, bye does not take any arguments.
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 
@@ -785,21 +788,21 @@ ____________________________________________________________
 | |_| | (_| | | | |  __/ |_
  \___/ \__,_|_| |_|\___|\__|
 ____________________________________________________________
-Hi! I'm Janet! I'm here to help with absolutely anything.
-What can I do for you?
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
  I ignored malformed saved-task line 2. Saving is disabled to protect the data file. Fix the file and restart Janet.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] valid task
 ____________________________________________________________
  I can't save changes while the saved-data warning is unresolved. Fix the data file and restart Janet.
 ____________________________________________________________
- Here are the tasks in your list:
+ Absolutely! Here is everything on your list:
  1.[T][ ] valid task
 ____________________________________________________________
 ____________________________________________________________
- Okay! Have a wonderful day. Bye!
+ All set! I'll be right here if you need me. Bye!
 ____________________________________________________________
 ```
 

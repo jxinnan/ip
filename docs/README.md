@@ -3,6 +3,11 @@
 Janet is a task manager that keeps track of to-dos, deadlines, and events. Enter commands in the message box and
 press Enter or click Send. Janet saves every change automatically.
 
+Janet's cheerful, literal, and always-helpful personality is inspired by the character from *The Good Place*.
+Character research was informed by
+[Cultured Vultures' Janet profile](https://culturedvultures.com/good-place-janet/); all responses in this app are
+originally written for the project.
+
 ## Commands
 
 | Action | Command | Example |
