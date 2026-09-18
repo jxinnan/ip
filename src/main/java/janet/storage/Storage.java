@@ -177,7 +177,7 @@ public class Storage {
                 return null;
             }
             return task;
-        } catch (DateTimeParseException exception) {
+        } catch (DateTimeParseException | IllegalArgumentException exception) {
             return null;
         }
     }

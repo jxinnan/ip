@@ -11,7 +11,7 @@ you stay organized.
 
 ## What Janet can do
 
-- Add to-dos, dated deadlines, and events with flexible start and end descriptions.
+- Add to-dos, dated deadlines, and events with validated dates and times.
 - List, find, complete, reopen, and delete tasks.
 - Delete several tasks safely in one command.
 - Keep task data between sessions in a local `data/janet.txt` file.
@@ -35,21 +35,22 @@ Try this short tour:
 
 ```text
 todo read book
-deadline return book /by 2026-09-30
+deadline return book /by 2099-09-30
 list
 mark 1
 ```
 
 Janet saves successful changes automatically. Keep the generated `data` folder with the JAR if you move the
-application to another location.
+application to another location. Janet rejects an exact duplicate with the same task type, description, and date or
+time details.
 
 ## Commands at a glance
 
 | Action | Command | Example |
 | --- | --- | --- |
 | Add a to-do | `todo DESCRIPTION` | `todo read book` |
-| Add a deadline | `deadline DESCRIPTION /by YYYY-MM-DD` | `deadline return book /by 2026-09-30` |
-| Add an event | `event DESCRIPTION /from START /to END` | `event meeting /from Monday 2pm /to 4pm` |
+| Add a deadline | `deadline DESCRIPTION /by YYYY-MM-DD` | `deadline return book /by 2099-09-30` |
+| Add an event | `event DESCRIPTION /from START /to END` | `event meeting /from 2099-09-30 14:00 /to 2099-09-30 16:00` |
 | Show all tasks | `list` | `list` |
 | Complete a task | `mark NUMBER` | `mark 2` |
 | Reopen a task | `unmark NUMBER` | `unmark 2` |

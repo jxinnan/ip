@@ -2,9 +2,11 @@ package janet.task;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 
 import org.junit.jupiter.api.Test;
 
@@ -40,12 +42,19 @@ class TaskTest {
 
     @Test
     void event_getters_returnFormattedAndRawDetails() {
-        Event event = new Event("project meeting", "Mon 2pm", "4pm");
+        Event event = new Event("project meeting", "14:00", "16:00");
 
         assertEquals("[E]", event.getTypeIcon());
-        assertEquals("Mon 2pm", event.getStart());
-        assertEquals("4pm", event.getEnd());
+        assertEquals("14:00", event.getStart());
+        assertEquals("16:00", event.getEnd());
         assertEquals("project meeting", event.getRawDescription());
-        assertEquals("project meeting (from: Mon 2pm to: 4pm)", event.getDescription());
+        assertEquals("project meeting (from: 14:00 to: 16:00)", event.getDescription());
+    }
+
+    @Test
+    void event_invalidOrReversedDateTime_throwsValidationException() {
+        assertThrows(DateTimeParseException.class, () -> new Event("invalid", "10:99", "11:00"));
+        assertThrows(IllegalArgumentException.class, () -> new Event("mixed", "2099-01-01", "11:00"));
+        assertThrows(IllegalArgumentException.class, () -> new Event("reversed", "12:00", "11:00"));
     }
 }

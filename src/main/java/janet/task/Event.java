@@ -19,6 +19,14 @@ public class Event extends Task {
      */
     public Event(String description, String start, String end) {
         super(description);
+        TaskDateTime parsedStart = TaskDateTime.parse(start);
+        TaskDateTime parsedEnd = TaskDateTime.parse(end);
+        if (!parsedStart.hasSameKind(parsedEnd)) {
+            throw new IllegalArgumentException("Event start and end must use the same date/time format.");
+        }
+        if (parsedEnd.isBefore(parsedStart)) {
+            throw new IllegalArgumentException("Event end must not precede its start.");
+        }
         this.start = start;
         this.end = end;
     }

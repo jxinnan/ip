@@ -33,6 +33,10 @@ public abstract class Command {
 
 /** Adds a new task and persists the changed list. */
 class AddCommand extends Command {
+    private static final String PAST_DATE_TIME_WARNING =
+            "Warning: this task contains a date or time that has already passed.";
+
+    private final boolean hasPastDateTime;
     private final Task task;
 
     /**
@@ -41,7 +45,18 @@ class AddCommand extends Command {
      * @param task task to add.
      */
     AddCommand(Task task) {
+        this(task, false);
+    }
+
+    /**
+     * Creates a command that adds one task and optionally warns about a past date or time.
+     *
+     * @param task task to add.
+     * @param hasPastDateTime whether the task contains a recognized past date or time.
+     */
+    AddCommand(Task task, boolean hasPastDateTime) {
         this.task = task;
+        this.hasPastDateTime = hasPastDateTime;
     }
 
     @Override
@@ -55,6 +70,9 @@ class AddCommand extends Command {
             throw exception;
         }
         ui.showTaskAdded(task, tasks.size());
+        if (hasPastDateTime) {
+            ui.showWarning(PAST_DATE_TIME_WARNING);
+        }
     }
 }
 

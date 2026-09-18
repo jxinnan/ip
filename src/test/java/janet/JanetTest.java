@@ -49,6 +49,30 @@ class JanetTest {
     }
 
     @Test
+    void getResponse_duplicateTask_rejectsTaskAndPreservesState() {
+        Janet janet = new Janet(temporaryDirectory.resolve("data/janet.txt").toString());
+
+        janet.getResponse("event meeting /from 2099-01-01 10:00 /to 2099-01-01 11:00");
+        String duplicateResponse =
+                janet.getResponse("event meeting /from 2099-01-01 10:00 /to 2099-01-01 11:00");
+        String listResponse = janet.getResponse("list");
+
+        assertEquals("Sorry, that exact task is already in your list.", duplicateResponse);
+        assertEquals(1, listResponse.lines().filter(line -> line.contains("[E][ ] meeting")).count());
+    }
+
+    @Test
+    void getCommandResult_pastDateWarnsWithoutClassifyingResponseAsError() {
+        Janet janet = new Janet(temporaryDirectory.resolve("data/janet.txt").toString());
+
+        CommandResult result = janet.getCommandResult("deadline archived task /by 2000-01-01");
+
+        assertTrue(result.message().contains("Warning: this task contains a date or time that has already passed."));
+        assertFalse(result.isError());
+        assertTrue(janet.getResponse("list").contains("archived task"));
+    }
+
+    @Test
     void getResponse_saveFails_reversesAllTaskChanges() throws IOException {
         Path dataFile = temporaryDirectory.resolve("data/janet.txt");
         Janet janet = new Janet(dataFile.toString());
@@ -113,8 +137,8 @@ class JanetTest {
         Janet janet = new Janet(dataFile.toString());
 
         janet.getResponse("todo read book");
-        janet.getResponse("deadline return book /by 2019-12-02");
-        janet.getResponse("event project meeting /from Mon 2pm /to 4pm");
+        janet.getResponse("deadline return book /by 2099-12-02");
+        janet.getResponse("event project meeting /from 14:00 /to 16:00");
         String markResponse = janet.getResponse("mark 2");
         String unmarkResponse = janet.getResponse("unmark 2");
         String findResponse = janet.getResponse("find book");
@@ -130,6 +154,6 @@ class JanetTest {
         assertFalse(listResponse.contains("read book"));
         assertFalse(listResponse.contains("project meeting"));
         assertTrue(listResponse.contains("1.[D][ ] return book"));
-        assertEquals("D\t0\treturn book\t2019-12-02\n", Files.readString(dataFile));
+        assertEquals("D\t0\treturn book\t2099-12-02\n", Files.readString(dataFile));
     }
 }

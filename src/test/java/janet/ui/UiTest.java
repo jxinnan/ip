@@ -33,12 +33,12 @@ class UiTest {
         outputBytes.reset();
         Todo completedTodo = new Todo("read book");
         completedTodo.markAsDone();
-        ui.showTaskList(List.of(completedTodo, new Event("meeting", "2pm", "4pm")));
+        ui.showTaskList(List.of(completedTodo, new Event("meeting", "14:00", "16:00")));
 
         assertEquals("""
                  Absolutely! Here is everything on your list:
                  1.[T][X] read book
-                 2.[E][ ] meeting (from: 2pm to: 4pm)
+                 2.[E][ ] meeting (from: 14:00 to: 16:00)
                 """, getOutput());
     }
 

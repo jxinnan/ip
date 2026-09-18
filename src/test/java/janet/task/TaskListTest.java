@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -71,6 +72,32 @@ class TaskListTest {
     }
 
     @Test
+    void add_exactDuplicateTasks_throwsExceptionWithoutAddingTasks() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("same description"));
+        tasks.add(new Deadline("same description", LocalDate.of(2099, 1, 1)));
+        tasks.add(new Event("meeting", "10:00", "11:00"));
+
+        assertThrows(InvalidTaskException.class, () -> tasks.add(new Todo("same description")));
+        assertThrows(InvalidTaskException.class, () ->
+                tasks.add(new Deadline("same description", LocalDate.of(2099, 1, 1))));
+        assertThrows(InvalidTaskException.class, () -> tasks.add(new Event("meeting", "10:00", "11:00")));
+        assertEquals(3, tasks.size());
+    }
+
+    @Test
+    void add_tasksWithDifferentTypeOrDetails_addsEveryTask() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("same description"));
+        tasks.add(new Deadline("same description", LocalDate.of(2099, 1, 1)));
+        tasks.add(new Deadline("same description", LocalDate.of(2099, 1, 2)));
+        tasks.add(new Event("meeting", "10:00", "11:00"));
+        tasks.add(new Event("meeting", "10:00", "12:00"));
+
+        assertEquals(5, tasks.size());
+    }
+
+    @Test
     void get_invalidTaskNumber_throwsException() {
         TaskList tasks = new TaskList();
         tasks.add(new Todo("only task"));
@@ -83,8 +110,8 @@ class TaskListTest {
     void find_matchingKeyword_returnsMatchingTasksInOriginalOrder() {
         TaskList tasks = new TaskList();
         tasks.add(new Todo("read book"));
-        tasks.add(new Todo("borrow book"));
         tasks.add(new Todo("call friend"));
+        tasks.add(new Todo("borrow book"));
 
         List<Task> matchingTasks = tasks.find("book");
 

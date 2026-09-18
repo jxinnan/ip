@@ -45,7 +45,32 @@ public class TaskList {
         if (tasks.size() >= MAX_TASKS) {
             throw new TaskLimitException("Sorry, I can only store " + MAX_TASKS + " tasks.");
         }
+        if (tasks.stream().anyMatch(existingTask -> hasSameDetails(existingTask, task))) {
+            throw new InvalidTaskException("Sorry, that exact task is already in your list.");
+        }
         tasks.add(task);
+    }
+
+    /**
+     * Returns whether two tasks have the same type and user-entered details.
+     *
+     * @param firstTask first task to compare.
+     * @param secondTask second task to compare.
+     * @return whether the tasks are duplicates
+     */
+    private boolean hasSameDetails(Task firstTask, Task secondTask) {
+        if (!firstTask.getClass().equals(secondTask.getClass())
+                || !firstTask.getRawDescription().equals(secondTask.getRawDescription())) {
+            return false;
+        }
+        if (firstTask instanceof Deadline firstDeadline && secondTask instanceof Deadline secondDeadline) {
+            return firstDeadline.getDeadline().equals(secondDeadline.getDeadline());
+        }
+        if (firstTask instanceof Event firstEvent && secondTask instanceof Event secondEvent) {
+            return firstEvent.getStart().equals(secondEvent.getStart())
+                    && firstEvent.getEnd().equals(secondEvent.getEnd());
+        }
+        return true;
     }
 
     /**

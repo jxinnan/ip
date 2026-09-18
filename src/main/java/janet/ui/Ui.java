@@ -181,6 +181,15 @@ public class Ui {
     }
 
     /**
+     * Shows a non-error warning message.
+     *
+     * @param message the warning message.
+     */
+    public void showWarning(String message) {
+        output.println(" " + message);
+    }
+
+    /**
      * Shows Janet's goodbye message.
      */
     public void showGoodbye() {

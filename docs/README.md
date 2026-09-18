@@ -15,7 +15,7 @@ commands. Janet saves your changes automatically, so your tasks are waiting when
 
 4. Type a command in the message box, then press <kbd>Enter</kbd> or click **Send**.
 
-For a quick tour, try `todo read book`, `deadline return book /by 2026-09-30`, and then `list`.
+For a quick tour, try `todo read book`, `deadline return book /by 2099-09-30`, and then `list`.
 
 ## Command format
 
@@ -23,6 +23,7 @@ For a quick tour, try `todo read book`, `deadline return book /by 2026-09-30`, a
 - Items in square brackets are optional. `delete NUMBER [NUMBER ...]` accepts one or more task numbers.
 - Command names are not case-sensitive, but keywords used with `find` are case-sensitive.
 - Use the task numbers shown by `list` when marking, unmarking, or deleting tasks.
+- Janet rejects an exact duplicate with the same task type, description, and date or time details.
 
 ## Features
 
@@ -40,15 +41,19 @@ Adds a task that must be completed by a specific date. Enter the date in `YYYY-M
 
 Format: `deadline DESCRIPTION /by YYYY-MM-DD`
 
-Example: `deadline return book /by 2026-09-30`
+Example: `deadline return book /by 2099-09-30`
+
+Janet accepts only real calendar dates. A past date is still added, but Janet includes a warning in its response.
 
 ### Adding an event: `event`
 
-Adds a task with a start and end. Janet stores the start and end exactly as you type them.
+Adds a task with a start and end. Use `YYYY-MM-DD`, 24-hour `HH:mm`, or `YYYY-MM-DD HH:mm` for both values. The start
+and end must use the same format, and the end must be equal to or later than the start. Janet rejects impossible dates
+and times. A past value is still added, but Janet includes a warning in its response.
 
 Format: `event DESCRIPTION /from START /to END`
 
-Example: `event project meeting /from Monday 2pm /to 4pm`
+Example: `event project meeting /from 2099-09-30 14:00 /to 2099-09-30 16:00`
 
 ### Listing tasks: `list`
 
@@ -91,6 +96,8 @@ Format: `find KEYWORD`
 
 Example: `find book`
 
+Matches always remain in their original task-list order.
+
 > **Note:** Search-result numbers show the order of the results, not necessarily the tasks' numbers in the full list.
 > Run `list` before using `mark`, `unmark`, or `delete` on a task you found.
 
@@ -127,8 +134,8 @@ to protect the original file. Close Janet, repair or restore `data/janet.txt`, a
 | Action | Format | Example |
 | --- | --- | --- |
 | Add a to-do | `todo DESCRIPTION` | `todo read book` |
-| Add a deadline | `deadline DESCRIPTION /by YYYY-MM-DD` | `deadline return book /by 2026-09-30` |
-| Add an event | `event DESCRIPTION /from START /to END` | `event meeting /from 2pm /to 4pm` |
+| Add a deadline | `deadline DESCRIPTION /by YYYY-MM-DD` | `deadline return book /by 2099-09-30` |
+| Add an event | `event DESCRIPTION /from START /to END` | `event meeting /from 14:00 /to 16:00` |
 | List tasks | `list` | `list` |
 | Mark as completed | `mark NUMBER` | `mark 2` |
 | Mark as not completed | `unmark NUMBER` | `unmark 2` |

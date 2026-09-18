@@ -15,7 +15,7 @@ class ParserTest {
         assertInstanceOf(ListCommand.class, Parser.parse("list"));
         assertInstanceOf(AddCommand.class, Parser.parse("todo read book"));
         assertInstanceOf(AddCommand.class, Parser.parse("deadline return book /by 2019-12-02"));
-        assertInstanceOf(AddCommand.class, Parser.parse("event meeting /from 2pm /to 4pm"));
+        assertInstanceOf(AddCommand.class, Parser.parse("event meeting /from 14:00 /to 16:00"));
         assertInstanceOf(DeleteCommand.class, Parser.parse("delete 1 3"));
         assertInstanceOf(MarkCommand.class, Parser.parse("mark 1"));
         assertInstanceOf(UnmarkCommand.class, Parser.parse("unmark 1"));
@@ -52,8 +52,8 @@ class ParserTest {
         assertThrows(InvalidCommandException.class, () -> Parser.parse("todo"));
         assertThrows(InvalidCommandException.class, () -> Parser.parse("deadline return book"));
         assertThrows(InvalidCommandException.class, () -> Parser.parse("deadline return book /by"));
-        assertThrows(InvalidCommandException.class, () -> Parser.parse("event meeting /from 2pm"));
-        assertThrows(InvalidCommandException.class, () -> Parser.parse("event meeting /from /to 4pm"));
+        assertThrows(InvalidCommandException.class, () -> Parser.parse("event meeting /from 14:00"));
+        assertThrows(InvalidCommandException.class, () -> Parser.parse("event meeting /from /to 16:00"));
         assertThrows(InvalidCommandException.class, () -> Parser.parse("find"));
     }
 
@@ -63,6 +63,42 @@ class ParserTest {
                 Parser.parse("deadline return book /by 02-12-2019"));
         assertThrows(InvalidCommandException.class, () ->
                 Parser.parse("deadline return book /by 2019-02-29"));
+    }
+
+    @Test
+    void parse_validEventDateTimeFormats_returnsAddCommand() {
+        assertInstanceOf(AddCommand.class, Parser.parse("event day /from 2099-01-01 /to 2099-01-02"));
+        assertInstanceOf(AddCommand.class, Parser.parse("event time /from 09:30 /to 10:00"));
+        assertInstanceOf(AddCommand.class,
+                Parser.parse("event appointment /from 2099-01-01 09:30 /to 2099-01-01 10:00"));
+        assertInstanceOf(AddCommand.class, Parser.parse("event instant /from 10:00 /to 10:00"));
+    }
+
+    @Test
+    void parse_invalidEventDateTime_throwsInvalidCommandException() {
+        assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event invalid date /from 2026-02-30 /to 2026-03-01"));
+        assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event invalid time /from 10:99 /to 12:00"));
+        assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event free form /from Monday 2pm /to 4pm"));
+        assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event mixed /from 2099-01-01 /to 10:00"));
+    }
+
+    @Test
+    void parse_eventEndBeforeStart_throwsInvalidCommandException() {
+        InvalidCommandException timeException = assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event reverse time /from 18:00 /to 17:00"));
+        InvalidCommandException dateException = assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event reverse date /from 2099-02-02 /to 2099-02-01"));
+        InvalidCommandException dateTimeException = assertThrows(InvalidCommandException.class, () ->
+                Parser.parse("event reverse date-time /from 2099-02-02 12:00 /to 2099-02-02 11:59"));
+
+        assertEquals("Sorry, an event's end must be equal to or later than its start.",
+                timeException.getMessage());
+        assertEquals(timeException.getMessage(), dateException.getMessage());
+        assertEquals(timeException.getMessage(), dateTimeException.getMessage());
     }
 
     @Test
@@ -78,7 +114,7 @@ class ParserTest {
     void parse_taskTextContainingControlCharacter_throwsInvalidCommandException() {
         assertThrows(InvalidCommandException.class, () -> Parser.parse("todo read\tbook"));
         assertThrows(InvalidCommandException.class, () ->
-                Parser.parse("event meeting /from 2pm\tsharp /to 4pm"));
+                Parser.parse("event meeting /from 14:00\tsharp /to 16:00"));
         assertThrows(InvalidCommandException.class, () ->
                 Parser.parse("deadline return\tbook /by 2019-12-02"));
     }

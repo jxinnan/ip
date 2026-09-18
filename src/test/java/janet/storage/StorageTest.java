@@ -32,7 +32,7 @@ class StorageTest {
         completedTodo.markAsDone();
         originalTasks.add(completedTodo);
         originalTasks.add(new Deadline("return book", LocalDate.of(2019, 12, 2)));
-        originalTasks.add(new Event("project meeting", "Mon 2pm", "4pm"));
+        originalTasks.add(new Event("project meeting", "14:00", "16:00"));
 
         storage.save(originalTasks);
         TaskList loadedTasks = new TaskList(storage.load());
@@ -42,11 +42,11 @@ class StorageTest {
         assertEquals("read book", loadedTodo.getRawDescription());
         assertTrue(loadedTodo.isDone());
         assertEquals("return book (by: Dec 02 2019)", loadedTasks.get(2).getDescription());
-        assertEquals("project meeting (from: Mon 2pm to: 4pm)", loadedTasks.get(3).getDescription());
+        assertEquals("project meeting (from: 14:00 to: 16:00)", loadedTasks.get(3).getDescription());
         assertEquals(List.of(
                 "T\t1\tread book",
                 "D\t0\treturn book\t2019-12-02",
-                "E\t0\tproject meeting\tMon 2pm\t4pm"), Files.readAllLines(
+                "E\t0\tproject meeting\t14:00\t16:00"), Files.readAllLines(
                         temporaryDirectory.resolve("data/tasks.txt")));
     }
 
@@ -86,16 +86,18 @@ class StorageTest {
                 "T\t2\tinvalid status",
                 "X\t0\tunknown type",
                 "D\t0\tinvalid date\t2019-02-29",
-                "E\t0\tmissing end\t2pm",
+                "E\t0\tmissing end\t14:00",
                 "T\t0\t",
-                "E\t0\t\t2pm\t4pm") + "\n";
+                "E\t0\t\t14:00\t16:00",
+                "E\t0\tinvalid time\t10:99\t12:00",
+                "E\t0\treversed time\t12:00\t11:00") + "\n";
         Files.writeString(dataFile, originalData);
         Storage storage = new Storage(dataFile.toString());
 
         List<Task> loadedTasks = storage.load();
 
         assertEquals(1, loadedTasks.size());
-        assertTrue(storage.getLoadWarnings().get(0).contains("lines 2, 3, 4, 5, 6, 7"));
+        assertTrue(storage.getLoadWarnings().get(0).contains("lines 2, 3, 4, 5, 6, 7, 8, 9"));
         assertThrows(UnsupportedOperationException.class, () ->
                 storage.getLoadWarnings().add("another warning"));
         assertThrows(StorageException.class, () -> storage.save(new TaskList(loadedTasks)));

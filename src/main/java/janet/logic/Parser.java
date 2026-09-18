@@ -9,6 +9,7 @@ import janet.exception.InvalidCommandException;
 import janet.exception.InvalidTaskException;
 import janet.task.Deadline;
 import janet.task.Event;
+import janet.task.TaskDateTime;
 import janet.task.Todo;
 
 /**
@@ -42,8 +43,8 @@ public class Parser {
                 yield new ListCommand();
             }
             case TODO -> new AddCommand(parseTodo(normalizedInput));
-            case EVENT -> new AddCommand(parseEvent(normalizedInput));
-            case DEADLINE -> new AddCommand(parseDeadline(normalizedInput));
+            case EVENT -> parseEvent(normalizedInput);
+            case DEADLINE -> parseDeadline(normalizedInput);
             case DELETE -> new DeleteCommand(parseTaskNumbers(normalizedInput));
             case MARK -> new MarkCommand(parseTaskNumber(normalizedInput));
             case UNMARK -> new UnmarkCommand(parseTaskNumber(normalizedInput));
@@ -87,9 +88,9 @@ public class Parser {
      * Parses an event command.
      *
      * @param userInput complete command text.
-     * @return the event task described by the command
+     * @return a command that adds the event
      */
-    private static Event parseEvent(String userInput) {
+    private static AddCommand parseEvent(String userInput) {
         String eventCommand = parseArgument(userInput);
         int fromIndex = eventCommand.indexOf(" /from ");
         int toIndex = eventCommand.indexOf(" /to ");
@@ -108,16 +109,21 @@ public class Parser {
         validateStorableText(description);
         validateStorableText(start);
         validateStorableText(end);
-        return new Event(description, start, end);
+
+        TaskDateTime parsedStart = parseTaskDateTime(start);
+        TaskDateTime parsedEnd = parseTaskDateTime(end);
+        validateEventRange(parsedStart, parsedEnd);
+        boolean hasPastDateTime = parsedStart.isPast() || parsedEnd.isPast();
+        return new AddCommand(new Event(description, start, end), hasPastDateTime);
     }
 
     /**
      * Parses a deadline command.
      *
      * @param userInput complete command text.
-     * @return the deadline task described by the command
+     * @return a command that adds the deadline
      */
-    private static Deadline parseDeadline(String userInput) {
+    private static AddCommand parseDeadline(String userInput) {
         String deadlineCommand = parseArgument(userInput);
         int byIndex = deadlineCommand.indexOf(" /by ");
         if (byIndex <= 0) {
@@ -131,9 +137,39 @@ public class Parser {
         }
         validateStorableText(description);
         try {
-            return new Deadline(description, LocalDate.parse(deadlineText));
+            LocalDate deadline = LocalDate.parse(deadlineText);
+            return new AddCommand(new Deadline(description, deadline), deadline.isBefore(LocalDate.now()));
         } catch (DateTimeParseException exception) {
             throw new InvalidCommandException("Sorry, please provide a deadline date in yyyy-MM-dd format.");
+        }
+    }
+
+    /**
+     * Parses a strictly formatted event date or time.
+     *
+     * @param text event start or end text.
+     * @return the parsed date or time
+     */
+    private static TaskDateTime parseTaskDateTime(String text) {
+        try {
+            return TaskDateTime.parse(text);
+        } catch (DateTimeParseException exception) {
+            throw new InvalidCommandException("Sorry, use yyyy-MM-dd, HH:mm, or yyyy-MM-dd HH:mm.");
+        }
+    }
+
+    /**
+     * Rejects a recognized event range whose end precedes its start.
+     *
+     * @param start parsed start.
+     * @param end parsed end.
+     */
+    private static void validateEventRange(TaskDateTime start, TaskDateTime end) {
+        if (!start.hasSameKind(end)) {
+            throw new InvalidCommandException("Sorry, please use the same date/time format for an event's range.");
+        }
+        if (end.isBefore(start)) {
+            throw new InvalidCommandException("Sorry, an event's end must be equal to or later than its start.");
         }
     }
 

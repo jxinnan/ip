@@ -50,8 +50,8 @@ Aim: Verify that Janet displays tasks whose descriptions contain a keyword and r
 
 ```text
 todo read book
-deadline return book /by 2019-12-02
-event project meeting /from Mon 2pm /to 4pm
+deadline return book /by 2099-12-02
+event project meeting /from 2099-12-02 14:00 /to 2099-12-02 16:00
 find book
 find
 find meeting
@@ -79,28 +79,28 @@ ____________________________________________________________
  You now have 1 task.
 ____________________________________________________________
  Done and done! I added this task:
-   [D][ ] return book (by: Dec 02 2019)
+   [D][ ] return book (by: Dec 02 2099)
  You now have 2 tasks.
 ____________________________________________________________
  Done and done! I added this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  You now have 3 tasks.
 ____________________________________________________________
  I found these matching tasks:
  1.[T][ ] read book
- 2.[D][ ] return book (by: Dec 02 2019)
+ 2.[D][ ] return book (by: Dec 02 2099)
 ____________________________________________________________
  OOPS!!! A find command needs a keyword.
 ____________________________________________________________
  I found these matching tasks:
- 1.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 1.[E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
  I checked the whole list. No matching tasks found.
 ____________________________________________________________
  Absolutely! Here is everything on your list:
  1.[T][ ] read book
- 2.[D][ ] return book (by: Dec 02 2019)
- 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 2.[D][ ] return book (by: Dec 02 2099)
+ 3.[E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
 ____________________________________________________________
  All set! I'll be right here if you need me. Bye!
@@ -117,8 +117,8 @@ confirmation, and rejects duplicate, malformed, or out-of-range selections witho
 ```text
 todo alpha
 todo bravo
-deadline charlie /by 2019-12-02
-event delta /from Mon 2pm /to 4pm
+deadline charlie /by 2099-12-02
+event delta /from 2099-12-02 14:00 /to 2099-12-02 16:00
 todo echo
 delete 2 2
 delete 2 word
@@ -152,11 +152,11 @@ ____________________________________________________________
  You now have 2 tasks.
 ____________________________________________________________
  Done and done! I added this task:
-   [D][ ] charlie (by: Dec 02 2019)
+   [D][ ] charlie (by: Dec 02 2099)
  You now have 3 tasks.
 ____________________________________________________________
  Done and done! I added this task:
-   [E][ ] delta (from: Mon 2pm to: 4pm)
+   [E][ ] delta (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  You now have 4 tasks.
 ____________________________________________________________
  Done and done! I added this task:
@@ -172,18 +172,18 @@ ____________________________________________________________
  Absolutely! Here is everything on your list:
  1.[T][ ] alpha
  2.[T][ ] bravo
- 3.[D][ ] charlie (by: Dec 02 2019)
- 4.[E][ ] delta (from: Mon 2pm to: 4pm)
+ 3.[D][ ] charlie (by: Dec 02 2099)
+ 4.[E][ ] delta (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  5.[T][ ] echo
 ____________________________________________________________
  Done! I removed these tasks:
-   [E][ ] delta (from: Mon 2pm to: 4pm)
+   [E][ ] delta (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
    [T][ ] bravo
  You now have 3 tasks.
 ____________________________________________________________
  Absolutely! Here is everything on your list:
  1.[T][ ] alpha
- 2.[D][ ] charlie (by: Dec 02 2019)
+ 2.[D][ ] charlie (by: Dec 02 2099)
  3.[T][ ] echo
 ____________________________________________________________
 ____________________________________________________________
@@ -195,7 +195,7 @@ ____________________________________________________________
 
 ```text
 T	0	alpha
-D	0	charlie	2019-12-02
+D	0	charlie	2099-12-02
 T	0	echo
 ```
 
@@ -270,8 +270,8 @@ Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
  Absolutely! Here is everything on your list:
  1.[T][X] read book
- 2.[D][ ] return book (by: Dec 02 2019)
- 3.[E][X] project meeting (from: Mon 2pm to: 4pm)
+ 2.[D][ ] return book (by: Dec 02 2099)
+ 3.[E][X] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
 ____________________________________________________________
  All set! I'll be right here if you need me. Bye!
@@ -282,8 +282,8 @@ ____________________________________________________________
 
 ```text
 T	1	read book
-D	0	return book	2019-12-02
-E	1	project meeting	Mon 2pm	4pm
+D	0	return book	2099-12-02
+E	1	project meeting	2099-12-02 14:00	2099-12-02 16:00
 ```
 
 ## Test case: Add, list, mark, and unmark a task
@@ -344,8 +344,8 @@ Aim: Verify that Janet removes the selected task and reports the updated task co
 
 ```text
 todo read book
-deadline return book /by 2019-12-02
-event project meeting /from Mon 2pm /to 4pm
+deadline return book /by 2099-12-02
+event project meeting /from 2099-12-02 14:00 /to 2099-12-02 16:00
 delete 3
 list
 bye
@@ -370,20 +370,20 @@ ____________________________________________________________
  You now have 1 task.
 ____________________________________________________________
  Done and done! I added this task:
-   [D][ ] return book (by: Dec 02 2019)
+   [D][ ] return book (by: Dec 02 2099)
  You now have 2 tasks.
 ____________________________________________________________
  Done and done! I added this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  You now have 3 tasks.
 ____________________________________________________________
  Done! I removed this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  You now have 2 tasks.
 ____________________________________________________________
  Absolutely! Here is everything on your list:
  1.[T][ ] read book
- 2.[D][ ] return book (by: Dec 02 2019)
+ 2.[D][ ] return book (by: Dec 02 2099)
 ____________________________________________________________
 ____________________________________________________________
  All set! I'll be right here if you need me. Bye!
@@ -397,7 +397,7 @@ Aim: Verify that Janet creates an event, displays its start and end times, and p
 ### Inputs
 
 ```text
-event project meeting /from Mon 2pm /to 4pm
+event project meeting /from 2099-12-02 14:00 /to 2099-12-02 16:00
 list
 mark 1
 list
@@ -419,17 +419,17 @@ Hi there! I'm Janet, your cheerful task assistant.
 Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
  Done and done! I added this task:
-   [E][ ] project meeting (from: Mon 2pm to: 4pm)
+   [E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  You now have 1 task.
 ____________________________________________________________
  Absolutely! Here is everything on your list:
- 1.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+ 1.[E][ ] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
  Excellent! This task is now complete:
-   [E][X] project meeting (from: Mon 2pm to: 4pm)
+   [E][X] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
  Absolutely! Here is everything on your list:
- 1.[E][X] project meeting (from: Mon 2pm to: 4pm)
+ 1.[E][X] project meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
 ____________________________________________________________
  All set! I'll be right here if you need me. Bye!
@@ -443,7 +443,7 @@ Aim: Verify that Janet creates a deadline, displays its due date, and preserves 
 ### Inputs
 
 ```text
-deadline return book /by 2019-12-02
+deadline return book /by 2099-12-02
 list
 mark 1
 list
@@ -465,17 +465,17 @@ Hi there! I'm Janet, your cheerful task assistant.
 Fun fact: not a robot. What can I help you organize?
 ____________________________________________________________
  Done and done! I added this task:
-   [D][ ] return book (by: Dec 02 2019)
+   [D][ ] return book (by: Dec 02 2099)
  You now have 1 task.
 ____________________________________________________________
  Absolutely! Here is everything on your list:
- 1.[D][ ] return book (by: Dec 02 2019)
+ 1.[D][ ] return book (by: Dec 02 2099)
 ____________________________________________________________
  Excellent! This task is now complete:
-   [D][X] return book (by: Dec 02 2019)
+   [D][X] return book (by: Dec 02 2099)
 ____________________________________________________________
  Absolutely! Here is everything on your list:
- 1.[D][X] return book (by: Dec 02 2019)
+ 1.[D][X] return book (by: Dec 02 2099)
 ____________________________________________________________
 ____________________________________________________________
  All set! I'll be right here if you need me. Bye!
@@ -485,7 +485,7 @@ ____________________________________________________________
 ### Expected saved data
 
 ```text
-D	1	return book	2019-12-02
+D	1	return book	2099-12-02
 ```
 
 ## Test case: Add and complete a to-do
@@ -591,11 +591,11 @@ Aim: Verify that malformed structured commands are rejected and do not add tasks
 deadline
 deadline submit report /by
 deadline submit report /by Friday
-deadline submit report /by 2019-12-06
-event meeting /from Mon 2pm
-event meeting /from Mon 2pm /to
-event meeting /from /to 4pm
-event meeting /from Mon 2pm /to 4pm
+deadline submit report /by 2099-12-06
+event meeting /from 2099-12-02 14:00
+event meeting /from 2099-12-02 14:00 /to
+event meeting /from /to 2099-12-02 16:00
+event meeting /from 2099-12-02 14:00 /to 2099-12-02 16:00
 list
 bye
 ```
@@ -621,7 +621,7 @@ ____________________________________________________________
  Sorry, please provide a deadline date in yyyy-MM-dd format.
 ____________________________________________________________
  Done and done! I added this task:
-   [D][ ] submit report (by: Dec 06 2019)
+   [D][ ] submit report (by: Dec 06 2099)
  You now have 1 task.
 ____________________________________________________________
  Sorry, please use: event <task> /from <start> /to <end>.
@@ -631,12 +631,12 @@ ____________________________________________________________
  OOPS!!! An event needs a description, start, and end.
 ____________________________________________________________
  Done and done! I added this task:
-   [E][ ] meeting (from: Mon 2pm to: 4pm)
+   [E][ ] meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
  You now have 2 tasks.
 ____________________________________________________________
  Absolutely! Here is everything on your list:
- 1.[D][ ] submit report (by: Dec 06 2019)
- 2.[E][ ] meeting (from: Mon 2pm to: 4pm)
+ 1.[D][ ] submit report (by: Dec 06 2099)
+ 2.[E][ ] meeting (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
 ____________________________________________________________
 ____________________________________________________________
  All set! I'll be right here if you need me. Bye!
@@ -821,4 +821,96 @@ invalid row
 ```text
 T	0	valid task
 invalid row
+```
+
+## Test case: Validate task dates, duplicates, warnings, and find order
+
+Aim: Verify that Janet rejects exact duplicates, impossible or mismatched date/time values, and reversed ranges;
+accepts past values with warnings; and keeps matching tasks in their original list order.
+
+### Inputs
+
+```text
+todo project alpha
+todo middle
+deadline project deadline /by 2099-12-01
+event project event /from 2099-12-02 14:00 /to 2099-12-02 16:00
+event project event /from 2099-12-02 14:00 /to 2099-12-02 16:00
+deadline impossible /by 2026-02-30
+event invalid time /from 10:99 /to 12:00
+event reversed /from 18:00 /to 17:00
+event mixed /from 2099-12-02 /to 16:00
+deadline archived /by 2000-01-01
+event old meeting /from 2000-01-01 /to 2000-01-02
+find project
+list
+bye
+```
+
+### Expected output
+
+```text
+____________________________________________________________
+     _                  _
+    | |                | |
+    | | __ _ _ __   ___| |_
+ _  | |/ _` | '_ \ / _ \ __|
+| |_| | (_| | | | |  __/ |_
+ \___/ \__,_|_| |_|\___|\__|
+____________________________________________________________
+Hi there! I'm Janet, your cheerful task assistant.
+Fun fact: not a robot. What can I help you organize?
+____________________________________________________________
+ Done and done! I added this task:
+   [T][ ] project alpha
+ You now have 1 task.
+____________________________________________________________
+ Done and done! I added this task:
+   [T][ ] middle
+ You now have 2 tasks.
+____________________________________________________________
+ Done and done! I added this task:
+   [D][ ] project deadline (by: Dec 01 2099)
+ You now have 3 tasks.
+____________________________________________________________
+ Done and done! I added this task:
+   [E][ ] project event (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
+ You now have 4 tasks.
+____________________________________________________________
+ Sorry, that exact task is already in your list.
+____________________________________________________________
+ Sorry, please provide a deadline date in yyyy-MM-dd format.
+____________________________________________________________
+ Sorry, use yyyy-MM-dd, HH:mm, or yyyy-MM-dd HH:mm.
+____________________________________________________________
+ Sorry, an event's end must be equal to or later than its start.
+____________________________________________________________
+ Sorry, please use the same date/time format for an event's range.
+____________________________________________________________
+ Done and done! I added this task:
+   [D][ ] archived (by: Jan 01 2000)
+ You now have 5 tasks.
+ Warning: this task contains a date or time that has already passed.
+____________________________________________________________
+ Done and done! I added this task:
+   [E][ ] old meeting (from: 2000-01-01 to: 2000-01-02)
+ You now have 6 tasks.
+ Warning: this task contains a date or time that has already passed.
+____________________________________________________________
+ I found these matching tasks:
+ 1.[T][ ] project alpha
+ 2.[D][ ] project deadline (by: Dec 01 2099)
+ 3.[E][ ] project event (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
+____________________________________________________________
+ Absolutely! Here is everything on your list:
+ 1.[T][ ] project alpha
+ 2.[T][ ] middle
+ 3.[D][ ] project deadline (by: Dec 01 2099)
+ 4.[E][ ] project event (from: 2099-12-02 14:00 to: 2099-12-02 16:00)
+ 5.[D][ ] archived (by: Jan 01 2000)
+ 6.[E][ ] old meeting (from: 2000-01-01 to: 2000-01-02)
+____________________________________________________________
+____________________________________________________________
+ All set! I'll be right here if you need me. Bye!
+____________________________________________________________
 ```
